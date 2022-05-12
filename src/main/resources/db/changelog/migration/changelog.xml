@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+
+    <changeSet id="create-table-credentials" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/01.create-credentials-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-users" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/02.create-users-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-settlements" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/03.create-settlements-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-countries" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/04.create-countries-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-addresses" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/05.create-addresses-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-attractions" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/06.create-attractions-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-similar_places" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/07.create-similar_places-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-attraction_similar_place" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/08.create-attraction_similar_place-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-reviews" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/09.create-reviews-table.sql"/>
+    </changeSet>
+
+    <changeSet id="create-table-bookings" author="Yan Morozik">
+        <sqlFile encoding="utf8" path="db/changelog/migration/sql/10.create-bookings-table.sql"/>
+    </changeSet>
+
+</databaseChangeLog>
