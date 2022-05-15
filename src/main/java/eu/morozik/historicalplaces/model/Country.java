@@ -2,10 +2,7 @@ package eu.morozik.historicalplaces.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
 @Getter
@@ -20,6 +17,6 @@ public class Country extends BaseEntity{
     @Column(name = "country_name")
     private String countryName;
 
-    @OneToMany
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses;
 }

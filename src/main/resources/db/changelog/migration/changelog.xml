@@ -36,10 +36,6 @@
         <sqlFile encoding="utf8" path="db/changelog/migration/sql/07.create-similar_places-table.sql"/>
     </changeSet>
 
-    <changeSet id="create-table-attraction_similar_place" author="Yan Morozik">
-        <sqlFile encoding="utf8" path="db/changelog/migration/sql/08.create-attraction_similar_place-table.sql"/>
-    </changeSet>
-
     <changeSet id="create-table-reviews" author="Yan Morozik">
         <sqlFile encoding="utf8" path="db/changelog/migration/sql/09.create-reviews-table.sql"/>
     </changeSet>

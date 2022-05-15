@@ -2,10 +2,7 @@ package eu.morozik.historicalplaces.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -22,9 +19,9 @@ public class Review extends BaseEntity{
     @Column(name = "grade")
     private Long grade;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Attraction attraction;
 }

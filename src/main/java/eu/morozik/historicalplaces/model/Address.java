@@ -22,12 +22,12 @@ public class Address extends BaseEntity {
     @Column(name = "apartment")
     private Long apartment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Country country;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Settlement settlement;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "address", cascade = CascadeType.ALL)
     private Attraction attraction;
 }

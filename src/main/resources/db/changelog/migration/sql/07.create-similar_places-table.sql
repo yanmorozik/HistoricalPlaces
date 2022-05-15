@@ -1,5 +1,5 @@
 create table similar_places
 (
-    id            bigserial primary key,
-    attraction_id int8 references attractions (id)
+    attraction_id    int8 references attractions (id),
+    similar_place_id int8 references attractions (id)
 );

@@ -2,10 +2,7 @@ package eu.morozik.historicalplaces.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +18,6 @@ public class Settlement extends BaseEntity{
     @Column(name = "locality_name")
     private String localityName;
 
-    @OneToMany
+    @OneToMany(mappedBy = "settlement", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses= new HashSet<>();
 }
