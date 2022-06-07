@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "reviews")
+@Table(name = "review")
 public class Review extends BaseEntity{
 
     @Column(name = "review")

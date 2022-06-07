@@ -12,11 +12,11 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "settlements")
+@Table(name = "settlement")
 public class Settlement extends BaseEntity{
 
-    @Column(name = "locality_name")
-    private String localityName;
+    @Column(name = "name")
+    private String name;
 
     @OneToMany(mappedBy = "settlement", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses= new HashSet<>();

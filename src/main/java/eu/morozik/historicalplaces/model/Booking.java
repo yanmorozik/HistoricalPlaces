@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "bookings")
+@Table(name = "booking")
 public class Booking extends BaseEntity{
 
-    @Column(name = "booking_date")
-    private LocalDateTime bookingData;
+    @Column(name = "date")
+    private LocalDateTime date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;

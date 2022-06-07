@@ -5,12 +5,16 @@ import eu.morozik.historicalplaces.dto.bookingdto.BookingSimpleDto;
 import eu.morozik.historicalplaces.dto.CredentialDto;
 import eu.morozik.historicalplaces.model.enums.Role;
 import eu.morozik.historicalplaces.model.enums.Status;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
     private Long id;
 

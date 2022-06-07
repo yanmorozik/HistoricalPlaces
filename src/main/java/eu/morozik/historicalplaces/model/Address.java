@@ -4,13 +4,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
+
 @Getter
 @Setter
 @ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "addresses")
+@Table(name = "address")
 public class Address extends BaseEntity {
 
     @Column(name = "street")

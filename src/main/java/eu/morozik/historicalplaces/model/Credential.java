@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "credentials")
+@Table(name = "credential")
 public class Credential extends BaseEntity {
 
     @Column(name = "login")

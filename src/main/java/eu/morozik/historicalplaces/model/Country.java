@@ -11,11 +11,11 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "countries")
+@Table(name = "country")
 public class Country extends BaseEntity{
 
-    @Column(name = "country_name")
-    private String countryName;
+    @Column(name = "name")
+    private String name;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses;

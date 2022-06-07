@@ -12,11 +12,11 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "attractions")
+@Table(name = "attraction")
 public class Attraction extends BaseEntity {
 
-    @Column(name = "attraction_name")
-    private String attractionName;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "description")
     private String description;
@@ -32,7 +32,7 @@ public class Attraction extends BaseEntity {
     private Set<Review> reviews = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "similar_places",
+    @JoinTable(name = "similar_place",
             joinColumns = @JoinColumn(name = "attraction_id"),
             inverseJoinColumns = @JoinColumn(name = "similar_place_id")
     )
