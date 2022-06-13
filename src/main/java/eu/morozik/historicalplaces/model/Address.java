@@ -9,8 +9,6 @@ import javax.persistence.*;
 @Setter
 @ToString
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "address")
 public class Address extends BaseEntity {
 

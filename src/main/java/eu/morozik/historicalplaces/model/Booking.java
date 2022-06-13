@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "booking")
 public class Booking extends BaseEntity{
 

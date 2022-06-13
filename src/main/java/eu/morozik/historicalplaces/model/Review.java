@@ -9,7 +9,6 @@ import javax.persistence.*;
 @ToString
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "review")
 public class Review extends BaseEntity{
 

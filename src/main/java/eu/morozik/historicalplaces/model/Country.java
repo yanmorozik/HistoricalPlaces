@@ -10,7 +10,6 @@ import java.util.Set;
 @ToString
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "country")
 public class Country extends BaseEntity{
 

@@ -13,7 +13,6 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString
 @MappedSuperclass
 public abstract class BaseEntity {
 

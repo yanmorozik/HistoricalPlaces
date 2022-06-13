@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.service.impl;
+package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dao.api.AttractionDao;
 import eu.morozik.historicalplaces.service.api.AttractionService;
