@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="12.insert-credential-table" author="Yan Morozik">
+        <insert tableName="credential">
+            <column name="login" value="admin@mail.ru"/>
+            <column name="password" value="passwordA"/>
+        </insert>
+        <insert tableName="credential">
+            <column name="login" value="user1@mail.ru"/>
+            <column name="password" value="passwordU1"/>
+        </insert>
+        <insert tableName="credential">
+            <column name="login" value="user2@mail.ru"/>
+            <column name="password" value="passwordU2"/>
+        </insert>
+        <insert tableName="credential">
+            <column name="login" value="user3@mail.ru"/>
+            <column name="password" value="passwordU3"/>
+        </insert>
+        <insert tableName="credential">
+            <column name="login" value="user4@mail.ru"/>
+            <column name="password" value="passwordU4"/>
+        </insert>
+        <insert tableName="credential">
+            <column name="login" value="user5@mail.ru"/>
+            <column name="password" value="passwordU5"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="13.insert-role-table" author="Yan Morozik">
+        <insert tableName="role">
+            <column name="name_role" value="ROLE_ADMIN"/>
+        </insert>
+        <insert tableName="role">
+            <column name="name_role" value="ROLE_USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="14.insert-user-table" author="Yan Morozik">
+        <insert tableName="user">
+            <column name="credential_id" value="1"/>
+            <column name="first_name" value="admin"/>
+            <column name="surname" value="admin"/>
+            <column name="status" value="ACTIVE"/>
+        </insert>
+        <insert tableName="user">
+            <column name="credential_id" value="2"/>
+            <column name="first_name" value="user1"/>
+            <column name="surname" value="user1"/>
+            <column name="status" value="ACTIVE"/>
+        </insert>
+        <insert tableName="user">
+            <column name="credential_id" value="3"/>
+            <column name="first_name" value="user2"/>
+            <column name="surname" value="user2"/>
+            <column name="status" value="ACTIVE"/>
+        </insert>
+        <insert tableName="user">
+            <column name="credential_id" value="4"/>
+            <column name="first_name" value="user3"/>
+            <column name="surname" value="user3"/>
+            <column name="status" value="ACTIVE"/>
+        </insert>
+        <insert tableName="user">
+            <column name="credential_id" value="5"/>
+            <column name="first_name" value="user4"/>
+            <column name="surname" value="user4"/>
+            <column name="status" value="ACTIVE"/>
+        </insert>
+        <insert tableName="user">
+            <column name="credential_id" value="6"/>
+            <column name="first_name" value="user5"/>
+            <column name="surname" value="user5"/>
+            <column name="status" value="ACTIVE"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="15.insert-user_role-table" author="Yan Morozik">
+        <insert tableName="user_role">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="3"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="4"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="5"/>
+            <column name="role_id" value="2"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="6"/>
+            <column name="role_id" value="2"/>
+        </insert>
+    </changeSet>
+
+
+    <changeSet id="16.insert-settlement-table" author="Yan Morozik">
+        <insert tableName="settlement">
+            <column name="name" value="Minsk"/>
+        </insert>
+        <insert tableName="settlement">
+            <column name="name" value="Warsaw"/>
+        </insert>
+        <insert tableName="settlement">
+            <column name="name" value="Kyiv"/>
+        </insert>
+        <insert tableName="settlement">
+            <column name="name" value="Stockholm"/>
+        </insert>
+        <insert tableName="settlement">
+            <column name="name" value="Copenhagen"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="17.insert-country-table" author="Yan Morozik">
+        <insert tableName="country">
+            <column name="name" value="Belarus"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Poland"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Ukraine"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Sweden"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Denmark"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="18.insert-address-table" author="Yan Morozik">
+        <insert tableName="address">
+            <column name="settlement_id" value="1"/>
+            <column name="country_id" value="1"/>
+            <column name="street" value="Independence Avenue"/>
+            <column name="house" value="116"/>
+        </insert>
+        <insert tableName="address">
+            <column name="settlement_id" value="2"/>
+            <column name="country_id" value="2"/>
+            <column name="street" value="plac Defilad"/>
+            <column name="house" value="1"/>
+        </insert>
+        <insert tableName="address">
+            <column name="settlement_id" value="3"/>
+            <column name="country_id" value="3"/>
+            <column name="street" value="Vladimirskaya"/>
+            <column name="house" value="40А"/>
+        </insert>
+        <insert tableName="address">
+            <column name="settlement_id" value="4"/>
+            <column name="country_id" value="4"/>
+            <column name="street" value="Örgrytevägen"/>
+            <column name="house" value="5"/>
+            <column name="apartment" value="40222"/>
+        </insert>
+        <insert tableName="address">
+            <column name="settlement_id" value="5"/>
+            <column name="country_id" value="5"/>
+            <column name="street" value="Vesterbrogade"/>
+            <column name="house" value="3"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="19.insert-attraction-table" author="Yan Morozik">
+        <insert tableName="attraction">
+            <column name="address_id" value="1"/>
+            <column name="name" value="National Library of Belarus"/>
+            <column name="description"
+                    value="The National Library of Belarus is the main universal scientific library of Belarus. Until May 2021, the Director of the Library was Professor, Doctor of Pedagogical Sciences R. S. Motulsky."/>
+        </insert>
+        <insert tableName="attraction">
+            <column name="address_id" value="2"/>
+            <column name="name" value="Palace of Culture and Science"/>
+            <column name="description"
+                    value="The Palace of Culture and Science is a building in Warsaw. Located in the city center on Paradov Square, 1. Built on the model of the so-called 'Stalin skyscrapers' as a gift from the Soviet Union to the Polish people."/>
+        </insert>
+        <insert tableName="attraction">
+            <column name="address_id" value="3"/>
+            <column name="name" value="Golden Gate"/>
+            <column name="description"
+                    value="The Golden Gate is a monument of defensive architecture of Ancient Russia during the reign of Yaroslav the Wise. Historically, they served as the main entrance to the Kyiv Upper City from the south side."/>
+        </insert>
+        <insert tableName="attraction">
+            <column name="address_id" value="4"/>
+            <column name="name" value="Liseberg"/>
+            <column name="description"
+                    value="Liseberg is an amusement park in Gothenburg. One of the largest amusement parks in Europe, in 2005 Forbes magazine included Liseberg in the top 10 best amusement parks in the world."/>
+        </insert>
+        <insert tableName="attraction">
+            <column name="address_id" value="5"/>
+            <column name="name" value="Tivoli Park"/>
+            <column name="description"
+                    value="Tivoli is an amusement park. Located in the center of Copenhagen. One of the oldest parks in Denmark, second only to Direhavsbakken."/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="20.insert-similar_place-table" author="Yan Morozik">
+        <insert tableName="similar_place">
+            <column name="attraction_id" value="1"/>
+            <column name="similar_place_id" value="2"/>
+        </insert>
+        <insert tableName="similar_place">
+            <column name="attraction_id" value="2"/>
+            <column name="similar_place_id" value="3"/>
+        </insert>
+        <insert tableName="similar_place">
+            <column name="attraction_id" value="3"/>
+            <column name="similar_place_id" value="4"/>
+        </insert>
+        <insert tableName="similar_place">
+            <column name="attraction_id" value="4"/>
+            <column name="similar_place_id" value="5"/>
+        </insert>
+        <insert tableName="similar_place">
+            <column name="attraction_id" value="5"/>
+            <column name="similar_place_id" value="4"/>
+        </insert>
+        <insert tableName="similar_place">
+            <column name="attraction_id" value="5"/>
+            <column name="similar_place_id" value="3"/>
+        </insert>
+        <insert tableName="similar_place">
+            <column name="attraction_id" value="3"/>
+            <column name="similar_place_id" value="5"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="21.insert-review-table" author="Yan Morozik">
+        <insert tableName="review">
+            <column name="user_id" value="2"/>
+            <column name="attraction_id" value="1"/>
+            <column name="review" value="All liked it!"/>
+            <column name="grade" value="5"/>
+        </insert>
+        <insert tableName="review">
+            <column name="user_id" value="3"/>
+            <column name="attraction_id" value="2"/>
+            <column name="review" value="The staff let us down"/>
+            <column name="grade" value="3"/>
+        </insert>
+        <insert tableName="review">
+            <column name="user_id" value="4"/>
+            <column name="attraction_id" value="3"/>
+            <column name="review" value="Top notch service"/>
+            <column name="grade" value="5"/>
+        </insert>
+        <insert tableName="review">
+            <column name="user_id" value="5"/>
+            <column name="attraction_id" value="4"/>
+            <column name="review" value="A lot of trash"/>
+            <column name="grade" value="3"/>
+        </insert>
+        <insert tableName="review">
+            <column name="user_id" value="6"/>
+            <column name="attraction_id" value="5"/>
+            <column name="review" value="Few places of entertainment"/>
+            <column name="grade" value="4"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="22.insert-booking-table" author="Yan Morozik">
+        <insert tableName="booking">
+            <column name="user_id" value="2"/>
+            <column name="attraction_id" value="1"/>
+            <column name="date" value="2018-05-08 06:02:06.000000"/>
+        </insert>
+        <insert tableName="booking">
+            <column name="user_id" value="3"/>
+            <column name="attraction_id" value="2"/>
+            <column name="date" value="2019-09-21 10:12:00.000000"/>
+        </insert>
+        <insert tableName="booking">
+            <column name="user_id" value="4"/>
+            <column name="attraction_id" value="3"/>
+            <column name="date" value="2019-11-01 02:01:00.000000"/>
+        </insert>
+        <insert tableName="booking">
+            <column name="user_id" value="5"/>
+            <column name="attraction_id" value="4"/>
+            <column name="date" value="2019-04-23 08:00:00.000000"/>
+        </insert>
+        <insert tableName="booking">
+            <column name="user_id" value="6"/>
+            <column name="attraction_id" value="5"/>
+            <column name="date" value="2020-01-01 09:00:00.000000"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

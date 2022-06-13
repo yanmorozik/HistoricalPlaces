@@ -1,17 +1,16 @@
 package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dao.api.CountryDao;
-import eu.morozik.historicalplaces.service.api.CountryService;
 import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.model.Country;
+import eu.morozik.historicalplaces.service.api.CountryService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

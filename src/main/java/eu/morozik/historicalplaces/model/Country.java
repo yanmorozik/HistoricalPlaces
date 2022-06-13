@@ -1,16 +1,21 @@
 package eu.morozik.historicalplaces.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Set;
 
 @Getter
 @Setter
 @ToString
 @Entity
-@NoArgsConstructor
-@Table(name = "country")
+@Table(name = "\"country\"")
 public class Country extends BaseEntity{
 
     @Column(name = "name")

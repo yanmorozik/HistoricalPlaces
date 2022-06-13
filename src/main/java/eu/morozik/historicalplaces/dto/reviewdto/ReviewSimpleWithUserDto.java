@@ -1,6 +1,5 @@
 package eu.morozik.historicalplaces.dto.reviewdto;
 
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionSimpleDto;
 import eu.morozik.historicalplaces.dto.userdto.UserSimpleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;

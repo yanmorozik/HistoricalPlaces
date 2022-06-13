@@ -3,7 +3,7 @@ package eu.morozik.historicalplaces.dto.userdto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewSimpleWithAttractionDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingSimpleDto;
 import eu.morozik.historicalplaces.dto.CredentialDto;
-import eu.morozik.historicalplaces.model.enums.Role;
+import eu.morozik.historicalplaces.model.Role;
 import eu.morozik.historicalplaces.model.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;

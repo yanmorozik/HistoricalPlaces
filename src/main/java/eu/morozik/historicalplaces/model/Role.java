@@ -7,7 +7,8 @@ import lombok.ToString;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,12 +17,11 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity
-@Table(name = "\"settlement\"")
-public class Settlement extends BaseEntity{
+@Table(name = "\"role\"")
+public class Role extends BaseEntity{
+    @Column(name = "name_role")
+    private String nameRole;
 
-    @Column(name = "name")
-    private String name;
-
-    @OneToMany(mappedBy = "settlement", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Address> addresses= new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles",cascade = CascadeType.ALL)
+    private Set<User> users = new HashSet<>();
 }

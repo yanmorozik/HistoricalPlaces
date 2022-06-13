@@ -1,15 +1,20 @@
 package eu.morozik.historicalplaces.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Getter
 @Setter
 @ToString
 @Entity
-@NoArgsConstructor
-@Table(name = "review")
+@Table(name = "\"review\"")
 public class Review extends BaseEntity{
 
     @Column(name = "review")

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="01.create-credential-table" author="Yan Morozik">
+        <createTable tableName="credential">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="varchar(64)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="02.create-role-table" author="Yan Morozik">
+        <createTable tableName="role">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_role" type="varchar(64)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="03.create-user-table" author="Yan Morozik">
+        <createTable tableName="user">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="credential_id" type="bigint"/>
+            <column name="first_name" type="varchar(64)"/>
+            <column name="surname" type="varchar(64)"/>
+            <column name="status" type="varchar(30)" defaultValue="ACTIVE"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user" baseColumnNames="credential_id"
+                                 constraintName="user_credential_fkey"
+                                 referencedTableName="credential"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="04.create-user_role-table" author="Yan Morozik">
+        <createTable tableName="user_role">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id"
+                                 constraintName="user_role_user_id_fkey"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id"
+                                 constraintName="user_role_role_id_fkey"
+                                 referencedTableName="role"
+                                 referencedColumnNames="id"/>
+        <addPrimaryKey tableName="user_role" columnNames="user_id, role_id"/>
+    </changeSet>
+
+    <changeSet id="05.create-settlement-table" author="Yan Morozik">
+        <createTable tableName="settlement">
+            <column name="id" type="bigserial" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(64)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="06.create-country-table" author="Yan Morozik">
+        <createTable tableName="country">
+            <column name="id" type="bigserial" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(64)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="07.create-address-table" author="Yan Morozik">
+        <createTable tableName="address">
+            <column name="id" type="bigserial" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="settlement_id" type="bigint"/>
+            <column name="country_id" type="bigint"/>
+            <column name="street" type="varchar(64)"/>
+            <column name="house" type="varchar(64)"/>
+            <column name="apartment" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="address" baseColumnNames="settlement_id"
+                                 constraintName="address_settlement_fkey"
+                                 referencedTableName="settlement"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="address" baseColumnNames="country_id"
+                                 constraintName="address_country_fkey"
+                                 referencedTableName="country"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="08.create-attraction-table" author="Yan Morozik">
+        <createTable tableName="attraction">
+            <column name="id" type="bigserial" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="address_id" type="bigint"/>
+            <column name="name" type="varchar(64)"/>
+            <column name="description" type="varchar(1000)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="attraction" baseColumnNames="address_id"
+                                 constraintName="attraction_address_fkey"
+                                 referencedTableName="address"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="09.create-similar_place-table" author="Yan Morozik">
+        <createTable tableName="similar_place">
+            <column name="attraction_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="similar_place_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="similar_place" baseColumnNames="attraction_id"
+                                 constraintName="similar_place_attraction_fkey"
+                                 referencedTableName="attraction"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="similar_place" baseColumnNames="similar_place_id"
+                                 constraintName="similar_place_similar_place_fkey"
+                                 referencedTableName="attraction"
+                                 referencedColumnNames="id"/>
+        <addPrimaryKey tableName="similar_place" columnNames="attraction_id, similar_place_id"/>
+    </changeSet>
+
+    <changeSet id="10.create-review-table" author="Yan Morozik">
+        <createTable tableName="review">
+            <column name="id" type="bigserial" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint"/>
+            <column name="attraction_id" type="bigint"/>
+            <column name="review" type="varchar(255)"/>
+            <column name="grade" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="review" baseColumnNames="user_id"
+                                 constraintName="review_user_fkey"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="review" baseColumnNames="attraction_id"
+                                 constraintName="review_attraction_fkey"
+                                 referencedTableName="attraction"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="11.create-booking-table" author="Yan Morozik">
+        <createTable tableName="booking">
+            <column name="id" type="bigserial" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint"/>
+            <column name="attraction_id" type="bigint"/>
+            <column name="date" type="timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="booking" baseColumnNames="user_id"
+                                 constraintName="booking_user_fkey"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="booking" baseColumnNames="attraction_id"
+                                 constraintName="booking_attraction_fkey"
+                                 referencedTableName="attraction"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

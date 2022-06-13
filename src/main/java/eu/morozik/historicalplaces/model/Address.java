@@ -1,15 +1,22 @@
 package eu.morozik.historicalplaces.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "address")
+@Table(name = "\"address\"")
 public class Address extends BaseEntity {
 
     @Column(name = "street")

@@ -13,16 +13,15 @@ public class Application {
 
     //в changelog type for id bigserial     +
     //убрать Nullabe в id changelog         +
-    // изменить constraintName в changelog
-    //@MapperdSuperClass
-    //@NoArgsConstructor
-    //table(name= "\"user\"")
+    // изменить constraintName в changelog  +
+    //@MapperdSuperClass                    +
+    //@NoArgsConstructor                    +
+    //table(name= "\"user\"")               +
+    //ВЫНЕсти role в таблицу                +
+    //изменить названия ченсетов            +
+    //изменить расположение папок dao-api, service-api +
+    //создать дамп                          +
+    //отдельный файл для дамп               +
+    //<include file="" в changelog-maser    +
     // импорты
-    //ВЫНЕсти role в таблицу
-    //<include file="" в changelog-maser
-    //изменить названия ченсетов
-    //изменить расположение папок dao-api, service-api
-    //создать дамп
-    //отдельный файл для дамп
-    //
 }
