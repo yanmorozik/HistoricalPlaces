@@ -1,6 +1,6 @@
 package eu.morozik.historicalplaces.dto.attractiondto;
 
-import eu.morozik.historicalplaces.dto.AddressDto;
+import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewSimpleWithUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ public class AttractionDto {
 
     private Long id;
 
-    private String attractionName;
+    private String name;
 
     private String description;
 
@@ -24,5 +24,5 @@ public class AttractionDto {
 
     private Set<ReviewSimpleWithUserDto> reviews = new HashSet<>();
 
-    private Set<AttractionSimpleDto> attractions = new HashSet<>();
+    private Set<AttractionSimpleDto> similarAttractions = new HashSet<>();
 }

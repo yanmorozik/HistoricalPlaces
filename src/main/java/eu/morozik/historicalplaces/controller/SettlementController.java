@@ -1,9 +1,10 @@
 package eu.morozik.historicalplaces.controller;
 
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
-import eu.morozik.historicalplaces.service.AttractionService;
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
+import eu.morozik.historicalplaces.dto.RoleDto;
+import eu.morozik.historicalplaces.dto.SettlementDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import eu.morozik.historicalplaces.service.RoleService;
+import eu.morozik.historicalplaces.service.SettlementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,34 +20,34 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/attractions")
-public class AttractionController {
+@RequestMapping("/settlements")
+public class SettlementController {
 
-    private final AttractionService attractionService;
+    private final SettlementService settlementService;
 
     @PostMapping
-    public AttractionDto save(@RequestBody AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
-        return attractionService.save(attractionWithRelationIdsDto);
+    public SettlementDto save(@RequestBody SettlementDto  settlementDto) {
+        return settlementService.save(settlementDto);
     }
 
     @GetMapping("/{id}")
-    public AttractionDto findById(@PathVariable Long id) throws NotFoundException {
-        return attractionService.findById(id);
+    public SettlementDto findById(@PathVariable Long id) throws NotFoundException {
+        return settlementService.findById(id);
     }
 
     @GetMapping
-    public List<AttractionDto> findAll() {
-        return attractionService.findAll();
+    public List<SettlementDto> findAll() {
+        return settlementService.findAll();
     }
 
     @PutMapping
-    public AttractionDto update(@RequestBody AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
-        return attractionService.save(attractionWithRelationIdsDto);
+    public SettlementDto update(@RequestBody SettlementDto settlementDto) {
+        return settlementService.save(settlementDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        attractionService.deleteById(id);
+        settlementService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

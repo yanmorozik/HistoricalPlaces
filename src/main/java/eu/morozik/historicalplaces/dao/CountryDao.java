@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.dao.api;
+package eu.morozik.historicalplaces.dao;
 
 import eu.morozik.historicalplaces.model.Country;
 import org.springframework.data.jpa.repository.JpaRepository;

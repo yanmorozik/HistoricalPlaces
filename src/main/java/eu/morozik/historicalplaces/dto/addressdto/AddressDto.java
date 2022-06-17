@@ -1,5 +1,8 @@
-package eu.morozik.historicalplaces.dto;
+package eu.morozik.historicalplaces.dto.addressdto;
 
+import eu.morozik.historicalplaces.dto.CountryDto;
+import eu.morozik.historicalplaces.dto.SettlementDto;
+import eu.morozik.historicalplaces.dto.attractiondto.AttractionSimpleDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressDto {
+
+    private Long id;
 
     private String street;
 

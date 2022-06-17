@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "\"review\"")
 public class Review extends BaseEntity{

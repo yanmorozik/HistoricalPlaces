@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.service.api;
+package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;

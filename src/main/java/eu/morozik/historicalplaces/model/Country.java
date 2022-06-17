@@ -2,7 +2,6 @@ package eu.morozik.historicalplaces.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "\"country\"")
 public class Country extends BaseEntity{
@@ -21,6 +19,6 @@ public class Country extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     private Set<Address> addresses;
 }

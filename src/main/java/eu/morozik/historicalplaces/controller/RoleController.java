@@ -1,9 +1,10 @@
 package eu.morozik.historicalplaces.controller;
 
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
-import eu.morozik.historicalplaces.service.AttractionService;
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
+import eu.morozik.historicalplaces.dto.CountryDto;
+import eu.morozik.historicalplaces.dto.RoleDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import eu.morozik.historicalplaces.service.CountryService;
+import eu.morozik.historicalplaces.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,34 +20,34 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/attractions")
-public class AttractionController {
+@RequestMapping("/roles")
+public class RoleController {
 
-    private final AttractionService attractionService;
+    private final RoleService roleService;
 
     @PostMapping
-    public AttractionDto save(@RequestBody AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
-        return attractionService.save(attractionWithRelationIdsDto);
+    public RoleDto save(@RequestBody RoleDto  roleDto) {
+        return roleService.save(roleDto);
     }
 
     @GetMapping("/{id}")
-    public AttractionDto findById(@PathVariable Long id) throws NotFoundException {
-        return attractionService.findById(id);
+    public RoleDto findById(@PathVariable Long id) throws NotFoundException {
+        return roleService.findById(id);
     }
 
     @GetMapping
-    public List<AttractionDto> findAll() {
-        return attractionService.findAll();
+    public List<RoleDto> findAll() {
+        return roleService.findAll();
     }
 
     @PutMapping
-    public AttractionDto update(@RequestBody AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
-        return attractionService.save(attractionWithRelationIdsDto);
+    public RoleDto update(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        attractionService.deleteById(id);
+        roleService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,10 +1,10 @@
-package eu.morozik.historicalplaces.service;
+package eu.morozik.historicalplaces.service.impl;
 
-import eu.morozik.historicalplaces.dao.api.CountryDao;
+import eu.morozik.historicalplaces.dao.CountryDao;
 import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.model.Country;
-import eu.morozik.historicalplaces.service.api.CountryService;
+import eu.morozik.historicalplaces.service.CountryService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

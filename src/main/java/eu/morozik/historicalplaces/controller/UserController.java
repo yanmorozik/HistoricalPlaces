@@ -1,9 +1,9 @@
 package eu.morozik.historicalplaces.controller;
 
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
-import eu.morozik.historicalplaces.service.AttractionService;
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
+import eu.morozik.historicalplaces.dto.userdto.UserDto;
+import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import eu.morozik.historicalplaces.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,34 +19,34 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/attractions")
-public class AttractionController {
+@RequestMapping("/users")
+public class UserController {
 
-    private final AttractionService attractionService;
+    private final UserService userService;
 
     @PostMapping
-    public AttractionDto save(@RequestBody AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
-        return attractionService.save(attractionWithRelationIdsDto);
+    public UserDto save(@RequestBody UserWithRelationIdsDto userWithRelationIdsDto) {
+        return userService.save(userWithRelationIdsDto);
     }
 
     @GetMapping("/{id}")
-    public AttractionDto findById(@PathVariable Long id) throws NotFoundException {
-        return attractionService.findById(id);
+    public UserDto findById(@PathVariable Long id) throws NotFoundException {
+        return userService.findById(id);
     }
 
     @GetMapping
-    public List<AttractionDto> findAll() {
-        return attractionService.findAll();
+    public List<UserDto> findAll() {
+        return userService.findAll();
     }
 
     @PutMapping
-    public AttractionDto update(@RequestBody AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
-        return attractionService.save(attractionWithRelationIdsDto);
+    public UserDto update(@RequestBody UserWithRelationIdsDto userWithRelationIdsDto) {
+        return userService.save(userWithRelationIdsDto);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        attractionService.deleteById(id);
+        userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

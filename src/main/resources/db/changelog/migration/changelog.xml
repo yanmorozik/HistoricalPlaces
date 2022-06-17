@@ -89,6 +89,7 @@
             </column>
             <column name="settlement_id" type="bigint"/>
             <column name="country_id" type="bigint"/>
+<!--            <column name="attraction_id" type="bigint"/>-->
             <column name="street" type="varchar(64)"/>
             <column name="house" type="varchar(64)"/>
             <column name="apartment" type="bigint"/>
@@ -102,7 +103,12 @@
                                  constraintName="address_country_fkey"
                                  referencedTableName="country"
                                  referencedColumnNames="id"/>
+<!--        <addForeignKeyConstraint baseTableName="address" baseColumnNames="attraction_id"-->
+<!--                                 constraintName="address_attraction_fkey"-->
+<!--                                 referencedTableName="attraction"-->
+<!--                                 referencedColumnNames="id"/>-->
     </changeSet>
+
 
     <changeSet id="08.create-attraction-table" author="Yan Morozik">
         <createTable tableName="attraction">
@@ -119,6 +125,7 @@
                                  referencedTableName="address"
                                  referencedColumnNames="id"/>
     </changeSet>
+
 
     <changeSet id="09.create-similar_place-table" author="Yan Morozik">
         <createTable tableName="similar_place">
