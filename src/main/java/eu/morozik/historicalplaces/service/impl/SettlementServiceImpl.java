@@ -1,5 +1,7 @@
 package eu.morozik.historicalplaces.service.impl;
 
+import eu.morozik.historicalplaces.dao.AddressDao;
+import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.RoleDao;
 import eu.morozik.historicalplaces.dao.SettlementDao;
 import eu.morozik.historicalplaces.dto.RoleDto;
@@ -12,6 +14,7 @@ import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ import java.util.List;
 public class SettlementServiceImpl implements SettlementService {
 
     private final SettlementDao settlementDao;
+    private final AttractionDao attractionDao;
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
@@ -42,8 +46,10 @@ public class SettlementServiceImpl implements SettlementService {
         return (List<SettlementDto>) mapperUtil.map(settlements,SettlementDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
+        attractionDao.deleteSimilarPlaces(id);
         settlementDao.deleteById(id);
     }
 }

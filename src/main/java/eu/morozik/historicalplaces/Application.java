@@ -9,5 +9,4 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-    //не могу удолить addres, attraction из за similar_palce table
 }

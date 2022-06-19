@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -48,5 +49,15 @@ public class UserController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/findUserByName")
+    List<UserDto> findUserByStatusAndName(String name){
+        return userService.findUserByName(name);
+    }
+
+    @GetMapping("/findBySurname")
+    List<UserDto> findBySurname(@RequestParam String surname){
+        return userService.findBySurname(surname);
     }
 }

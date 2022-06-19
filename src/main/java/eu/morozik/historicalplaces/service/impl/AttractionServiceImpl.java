@@ -3,6 +3,7 @@ package eu.morozik.historicalplaces.service.impl;
 import eu.morozik.historicalplaces.dao.AddressDao;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
+import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -53,6 +54,11 @@ public class AttractionServiceImpl implements AttractionService {
     public void deleteById(Long id) {
         attractionDao.deleteSimilarPlaces(id);
         attractionDao.deleteById(id);
+    }
+
+    @Override
+    public AttractionView findByName(String name) {
+        return attractionDao.findByName(name);
     }
 
     public Attraction reassignment(AttractionWithRelationIdsDto attractionWithRelationIdsDto) {

@@ -146,6 +146,30 @@
         <insert tableName="country">
             <column name="name" value="Denmark"/>
         </insert>
+        <insert tableName="country">
+            <column name="name" value="Brazil"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Argentina"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Estonia"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Belgium"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Romania"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Serbia"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Thailand"/>
+        </insert>
+        <insert tableName="country">
+            <column name="name" value="Afghanistan"/>
+        </insert>
     </changeSet>
 
     <changeSet id="18.insert-address-table" author="Yan Morozik">

@@ -15,4 +15,8 @@ public interface UserService {
     List<UserDto> findAll();
 
     void deleteById(Long id);
+
+    List<UserDto> findUserByName( String name);
+
+    List<UserDto> findBySurname(String surname);
 }

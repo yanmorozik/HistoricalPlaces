@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -48,6 +49,12 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public void deleteById(Long id) {
         bookingDao.deleteById(id);
+    }
+
+    @Override
+    public List<BookingDto> findAllByDateBefore(LocalDateTime date) {
+        List<Booking> bookings = bookingDao.findAllByDateBefore(date);
+        return (List<BookingDto>) mapperUtil.map(bookings, BookingDto.class);
     }
 
     public Booking reassignment(BookingWithRelationIdsDto bookingWithRelationIdsDto) {

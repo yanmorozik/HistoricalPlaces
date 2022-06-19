@@ -4,13 +4,10 @@ import eu.morozik.historicalplaces.dao.CredentialDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dao.RoleDao;
 import eu.morozik.historicalplaces.dao.UserDao;
-import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.model.Attraction;
 import eu.morozik.historicalplaces.model.Credential;
-import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.model.Role;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.model.enums.Status;
@@ -19,6 +16,7 @@ import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -50,12 +48,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         List<User> users = userDao.findAll();
-        return (List<UserDto>) mapperUtil.map(users,UserDto.class);
+        return (List<UserDto>) mapperUtil.map(users, UserDto.class);
     }
 
     @Override
     public void deleteById(Long id) {
         userDao.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public List<UserDto> findUserByName(String name) {
+        List<User> users = userDao.findUserByName(name);
+        return (List<UserDto>) mapperUtil.map(users, UserDto.class);
+    }
+
+    @Transactional
+    @Override
+    public List<UserDto> findBySurname(String surname) {
+        List<User> users = userDao.findBySurname(surname);
+        return (List<UserDto>) mapperUtil.map(users, UserDto.class);
     }
 
     public User reassignment(UserWithRelationIdsDto userWithRelationIdsDto) {

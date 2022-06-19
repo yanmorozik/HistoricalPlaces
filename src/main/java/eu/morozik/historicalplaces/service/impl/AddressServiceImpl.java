@@ -16,6 +16,7 @@ import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,26 +32,31 @@ public class AddressServiceImpl implements AddressService {
     private final MapperUtil mapperUtil;
 
 
+    @Transactional
     @Override
     public AddressDto save(AddressWithRelationIdsDto addressWithRelationIdsDto) {
         Address response = addressDao.save(reassignment(addressWithRelationIdsDto));
         return modelMapper.map(response, AddressDto.class);
     }
 
+    @Transactional
     @Override
     public AddressDto findById(Long id) throws NotFoundException {
         Address address = addressDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(address, AddressDto.class);
     }
 
+    @Transactional
     @Override
     public List<AddressDto> findAll() {
         List<Address> addresses = addressDao.findAll();
         return (List<AddressDto>) mapperUtil.map(addresses,AddressDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
+        attractionDao.deleteSimilarPlaces(id);
         addressDao.deleteById(id);
     }
 

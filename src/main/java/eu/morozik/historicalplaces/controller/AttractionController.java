@@ -1,5 +1,6 @@
 package eu.morozik.historicalplaces.controller;
 
+import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AttractionService;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -48,5 +50,10 @@ public class AttractionController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         attractionService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/findByName")
+    public AttractionView findByName(@RequestParam String name){
+        return attractionService.findByName(name);
     }
 }

@@ -1,17 +1,14 @@
 package eu.morozik.historicalplaces.service.impl;
 
 import eu.morozik.historicalplaces.dao.AttractionDao;
-import eu.morozik.historicalplaces.dao.CountryDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dao.UserDao;
-import eu.morozik.historicalplaces.dto.CountryDto;
-import eu.morozik.historicalplaces.dto.bookingdto.BookingWithRelationIdsDto;
+import eu.morozik.historicalplaces.dto.CountGradeDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import eu.morozik.historicalplaces.exception.NotFoundGradeException;
 import eu.morozik.historicalplaces.model.Attraction;
-import eu.morozik.historicalplaces.model.Booking;
-import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.service.ReviewService;
@@ -20,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import javax.activation.ActivationDataFlavor;
 import java.util.List;
 
 @Service
@@ -48,12 +44,29 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewDto> findAll() {
         List<Review> reviews = reviewDao.findAll();
-        return (List<ReviewDto>) mapperUtil.map(reviews,ReviewDto.class);
+        return (List<ReviewDto>) mapperUtil.map(reviews, ReviewDto.class);
     }
 
     @Override
     public void deleteById(Long id) {
         reviewDao.deleteById(id);
+    }
+
+    @Override
+    public ReviewDto findFirstByGrade(Long grade) throws NotFoundGradeException {
+        Review review = reviewDao.findFirstByGrade(grade).orElseThrow(() -> new NotFoundGradeException(grade));
+        return modelMapper.map(review, ReviewDto.class);
+    }
+
+    @Override
+    public CountGradeDto countByGradeEquals(Long grade) throws NotFoundGradeException {
+        Long count = reviewDao.countByGradeEquals(grade).orElseThrow(() -> new NotFoundGradeException(grade));
+        return CountGradeDto.builder().countGrade(count).build();
+    }
+
+    @Override
+    public boolean existsReviewByGrade(Long grade) {
+        return reviewDao.existsReviewByGrade(grade);
     }
 
     public Review reassignment(ReviewWithRelationIdsDto reviewWithRelationIdsDto) {

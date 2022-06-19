@@ -1,10 +1,9 @@
 package eu.morozik.historicalplaces.controller;
 
-import eu.morozik.historicalplaces.dto.CountryDto;
+import eu.morozik.historicalplaces.dto.CountGradeDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.service.CountryService;
 import eu.morozik.historicalplaces.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -50,5 +50,20 @@ public class ReviewController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         reviewService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/searchFirstGrade")
+    public ReviewDto findFirstByGrade(@RequestParam Long grade){
+        return reviewService.findFirstByGrade(grade);
+    }
+
+    @GetMapping("/countByGradeEquals")
+    public CountGradeDto countByGradeEquals(@RequestParam Long grade){
+        return reviewService.countByGradeEquals(grade);
+    }
+
+    @GetMapping("/existsReviewByGrade")
+    public boolean existsReviewByGrade(@RequestParam Long grade){
+        return reviewService.existsReviewByGrade(grade);
     }
 }
