@@ -16,6 +16,7 @@ import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,41 +30,48 @@ public class ReviewServiceImpl implements ReviewService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @Transactional
     @Override
     public ReviewDto save(ReviewWithRelationIdsDto reviewWithRelationIdsDto) {
         Review response = reviewDao.save(reassignment(reviewWithRelationIdsDto));
         return modelMapper.map(response, ReviewDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ReviewDto findById(Long id) throws NotFoundException {
         Review review = reviewDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(review, ReviewDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ReviewDto> findAll() {
         List<Review> reviews = reviewDao.findAll();
         return (List<ReviewDto>) mapperUtil.map(reviews, ReviewDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         reviewDao.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ReviewDto findFirstByGrade(Long grade) throws NotFoundGradeException {
         Review review = reviewDao.findFirstByGrade(grade).orElseThrow(() -> new NotFoundGradeException(grade));
         return modelMapper.map(review, ReviewDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CountGradeDto countByGradeEquals(Long grade) throws NotFoundGradeException {
         Long count = reviewDao.countByGradeEquals(grade).orElseThrow(() -> new NotFoundGradeException(grade));
         return CountGradeDto.builder().countGrade(count).build();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean existsReviewByGrade(Long grade) {
         return reviewDao.existsReviewByGrade(grade);

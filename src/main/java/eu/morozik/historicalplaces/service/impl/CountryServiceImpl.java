@@ -30,6 +30,7 @@ public class CountryServiceImpl implements CountryService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @Transactional
     @Override
     public CountryDto save(CountryDto attractionDto) {
         Country country = modelMapper.map(attractionDto, Country.class);
@@ -37,12 +38,14 @@ public class CountryServiceImpl implements CountryService {
         return modelMapper.map(response, CountryDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CountryDto findById(Long id) throws NotFoundException {
         Country country = countryDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(country, CountryDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CountryDto> findAll(int page, int size, String name) {
         Pageable pages = PageRequest.of(page, size, Sort.by(name));
@@ -56,6 +59,4 @@ public class CountryServiceImpl implements CountryService {
         attractionDao.deleteSimilarPlaces(id);
         countryDao.deleteById(id);
     }
-
-
 }

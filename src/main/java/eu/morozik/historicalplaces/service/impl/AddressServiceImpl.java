@@ -39,14 +39,14 @@ public class AddressServiceImpl implements AddressService {
         return modelMapper.map(response, AddressDto.class);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public AddressDto findById(Long id) throws NotFoundException {
         Address address = addressDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(address, AddressDto.class);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<AddressDto> findAll() {
         List<Address> addresses = addressDao.findAll();

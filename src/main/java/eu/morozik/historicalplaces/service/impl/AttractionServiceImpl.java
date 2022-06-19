@@ -31,18 +31,21 @@ public class AttractionServiceImpl implements AttractionService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @Transactional
     @Override
     public AttractionDto save(AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
         Attraction response = attractionDao.save(reassignment(attractionWithRelationIdsDto));
         return modelMapper.map(response, AttractionDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public AttractionDto findById(Long id) throws NotFoundException {
         Attraction attraction = attractionDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(attraction, AttractionDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<AttractionDto> findAll() {
         List<Attraction> attractions = attractionDao.findAll();
@@ -56,6 +59,7 @@ public class AttractionServiceImpl implements AttractionService {
         attractionDao.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public AttractionView findByName(String name) {
         return attractionDao.findByName(name);

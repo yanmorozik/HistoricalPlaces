@@ -14,6 +14,7 @@ import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,29 +29,34 @@ public class BookingServiceImpl implements BookingService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @Transactional
     @Override
     public BookingDto save(BookingWithRelationIdsDto bookingWithRelationIdsDto) {
         Booking response = bookingDao.save(reassignment(bookingWithRelationIdsDto));
         return modelMapper.map(response, BookingDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public BookingDto findById(Long id) throws NotFoundException {
         Booking booking = bookingDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(booking, BookingDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<BookingDto> findAll() {
         List<Booking> bookings = bookingDao.findAll();
         return (List<BookingDto>) mapperUtil.map(bookings, BookingDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         bookingDao.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<BookingDto> findAllByDateBefore(LocalDateTime date) {
         List<Booking> bookings = bookingDao.findAllByDateBefore(date);

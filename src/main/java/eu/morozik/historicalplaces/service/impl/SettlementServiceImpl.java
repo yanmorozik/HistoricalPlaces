@@ -27,6 +27,7 @@ public class SettlementServiceImpl implements SettlementService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @Transactional
     @Override
     public SettlementDto save(SettlementDto roleDto) {
         Settlement settlement = modelMapper.map(roleDto, Settlement.class);
@@ -34,12 +35,14 @@ public class SettlementServiceImpl implements SettlementService {
         return modelMapper.map(response, SettlementDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public SettlementDto findById(Long id) throws NotFoundException {
         Settlement settlement = settlementDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(settlement, SettlementDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<SettlementDto> findAll() {
         List<Settlement> settlements = settlementDao.findAll();

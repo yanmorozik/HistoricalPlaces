@@ -12,6 +12,7 @@ import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class RoleServiceImpl implements RoleService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @Transactional
     @Override
     public RoleDto save(RoleDto roleDto) {
         Role role = modelMapper.map(roleDto, Role.class);
@@ -30,18 +32,21 @@ public class RoleServiceImpl implements RoleService {
         return modelMapper.map(response, RoleDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public RoleDto findById(Long id) throws NotFoundException {
         Role role = roleDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(role, RoleDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<RoleDto> findAll() {
         List<Role> roles = roleDao.findAll();
         return (List<RoleDto>) mapperUtil.map(roles,RoleDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         roleDao.deleteById(id);

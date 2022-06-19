@@ -33,37 +33,41 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @Transactional
     @Override
     public UserDto save(UserWithRelationIdsDto userWithRelationIdsDto) {
         User response = userDao.save(reassignment(userWithRelationIdsDto));
         return modelMapper.map(response, UserDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserDto findById(Long id) throws NotFoundException {
         User user = userDao.findById(id).orElseThrow(() -> new NotFoundException(id));
         return modelMapper.map(user, UserDto.class);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<UserDto> findAll() {
         List<User> users = userDao.findAll();
         return (List<UserDto>) mapperUtil.map(users, UserDto.class);
     }
 
+    @Transactional
     @Override
     public void deleteById(Long id) {
         userDao.deleteById(id);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<UserDto> findUserByName(String name) {
         List<User> users = userDao.findUserByName(name);
         return (List<UserDto>) mapperUtil.map(users, UserDto.class);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<UserDto> findBySurname(String surname) {
         List<User> users = userDao.findBySurname(surname);
