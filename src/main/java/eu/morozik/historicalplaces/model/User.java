@@ -26,12 +26,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "\"user\"")
-@NamedEntityGraph(
-        name = "user-entity-graph",
-        attributeNodes = {
-                @NamedAttributeNode(value = "credential")
-        }
-)
 public class User extends BaseEntity {
 
     @Column(name = "first_name")

@@ -10,9 +10,9 @@ public interface AddressService {
 
     AddressDto save(AddressWithRelationIdsDto addressWithRelationIdsDto);
 
-    AddressDto findById(Long id) throws NotFoundException;
+    AddressDto findById(Long id);
 
-    List<AddressDto> findAll();
+    List<AddressDto> findAll(int page,int size, String name);
 
     void deleteById(Long id);
 }

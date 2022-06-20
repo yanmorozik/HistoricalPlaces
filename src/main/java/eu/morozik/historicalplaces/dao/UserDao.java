@@ -8,12 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface UserDao extends JpaRepository<User, Long> {
 
-    @Query(value = "select u from User  u where u.firstName = :name")
+    @Query(value = "select u from User u where u.firstName = :name")
     List<User> findUserByName(String name);
 
-    @EntityGraph(value = "user-entity-graph")
+    @EntityGraph(attributePaths = {"credential"})
     List<User> findBySurname(String surname);
 }

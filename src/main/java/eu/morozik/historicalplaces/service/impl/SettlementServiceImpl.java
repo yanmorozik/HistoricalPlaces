@@ -1,18 +1,19 @@
 package eu.morozik.historicalplaces.service.impl;
 
-import eu.morozik.historicalplaces.dao.AddressDao;
 import eu.morozik.historicalplaces.dao.AttractionDao;
-import eu.morozik.historicalplaces.dao.RoleDao;
 import eu.morozik.historicalplaces.dao.SettlementDao;
-import eu.morozik.historicalplaces.dto.RoleDto;
 import eu.morozik.historicalplaces.dto.SettlementDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.model.Role;
 import eu.morozik.historicalplaces.model.Settlement;
 import eu.morozik.historicalplaces.service.SettlementService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SettlementServiceImpl implements SettlementService {
 
     private final SettlementDao settlementDao;
@@ -37,16 +39,22 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Transactional(readOnly = true)
     @Override
-    public SettlementDto findById(Long id) throws NotFoundException {
-        Settlement settlement = settlementDao.findById(id).orElseThrow(() -> new NotFoundException(id));
+    public SettlementDto findById(Long id){
+        Settlement settlement = settlementDao.findById(id)
+                .orElseThrow(() -> {
+                    NotFoundException notFoundException = new NotFoundException(id);
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         return modelMapper.map(settlement, SettlementDto.class);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<SettlementDto> findAll() {
-        List<Settlement> settlements = settlementDao.findAll();
-        return (List<SettlementDto>) mapperUtil.map(settlements,SettlementDto.class);
+    public List<SettlementDto> findAll(int page, int size, String name) {
+        Pageable pages = PageRequest.of(page, size, Sort.by(name));
+        Page<Settlement> settlements = settlementDao.findAll(pages);
+        return (List<SettlementDto>) mapperUtil.map(settlements.getContent(), SettlementDto.class);
     }
 
     @Transactional

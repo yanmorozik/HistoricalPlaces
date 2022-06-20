@@ -10,9 +10,9 @@ public interface UserService {
 
     UserDto save(UserWithRelationIdsDto userWithRelationIdsDto);
 
-    UserDto findById(Long id) throws NotFoundException;
+    UserDto findById(Long id);
 
-    List<UserDto> findAll();
+    List<UserDto> findAll(int page,int size, String name);
 
     void deleteById(Long id);
 

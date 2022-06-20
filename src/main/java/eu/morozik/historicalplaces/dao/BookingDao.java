@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface BookingDao extends JpaRepository<Booking, Long> {
 
     @Query(value = "SELECT * FROM booking b where b.date < :date", nativeQuery = true)

@@ -14,15 +14,15 @@ public interface ReviewService {
 
     ReviewDto save(ReviewWithRelationIdsDto reviewWithRelationIdsDto);
 
-    ReviewDto findById(Long id) throws NotFoundException;
+    ReviewDto findById(Long id);
 
-    List<ReviewDto> findAll();
+    List<ReviewDto> findAll(int page,int size, String name);
 
     void deleteById(Long id);
 
-    ReviewDto findFirstByGrade(Long grade) throws NotFoundGradeException;
+    ReviewDto findFirstByGrade(Long grade);
 
-    CountGradeDto countByGradeEquals(Long grade) throws NotFoundGradeException ;
+    CountGradeDto countByGradeEquals(Long grade);
 
     boolean existsReviewByGrade(Long grade);
 }

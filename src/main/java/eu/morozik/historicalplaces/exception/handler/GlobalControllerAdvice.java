@@ -16,13 +16,9 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
-    private static final Logger logger = LoggerFactory.getLogger(
-            GlobalControllerAdvice.class);
-
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ErrorMessageDto handleNotFoundException(NotFoundException notFoundException) {
-        logger.error(notFoundException.getLocalizedMessage(),notFoundException);
 
         return ErrorMessageDto.builder()
                 .message(notFoundException.getMessage())
@@ -34,7 +30,6 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(NotFoundGradeException.class)
     @ResponseStatus(NOT_FOUND)
     public ErrorMessageDto handleNotFoundGradException(NotFoundGradeException notFoundGradeException) {
-        logger.error(notFoundGradeException.getLocalizedMessage(),notFoundGradeException);
 
         return ErrorMessageDto.builder()
                 .message(notFoundGradeException.getMessage())

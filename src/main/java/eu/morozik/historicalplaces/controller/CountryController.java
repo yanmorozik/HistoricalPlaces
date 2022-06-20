@@ -27,25 +27,29 @@ public class CountryController {
     private final CountryService countryService;
 
     @PostMapping
-    public CountryDto save(@RequestBody CountryDto countryDto) {
-        return countryService.save(countryDto);
+    public ResponseEntity<CountryDto> save(@RequestBody CountryDto countryDto) {
+        CountryDto dto = countryService.save(countryDto);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
-    public CountryDto findById(@PathVariable Long id) throws NotFoundException {
-        return countryService.findById(id);
+    public ResponseEntity<CountryDto> findById(@PathVariable Long id) {
+        CountryDto dto = countryService.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public List<CountryDto> findAll(@RequestParam int page,
-                                    @RequestParam int size,
-                                    @RequestParam String name) {
-        return countryService.findAll(page, size, name);
+    public ResponseEntity<List<CountryDto>> findAll(@RequestParam int page,
+                                                    @RequestParam int size,
+                                                    @RequestParam String name) {
+        List<CountryDto> counties = countryService.findAll(page, size, name);
+        return ResponseEntity.ok(counties);
     }
 
     @PutMapping
-    public CountryDto update(@RequestBody CountryDto countryDto) {
-        return countryService.save(countryDto);
+    public ResponseEntity<CountryDto> update(@RequestBody CountryDto countryDto) {
+        CountryDto dto = countryService.save(countryDto);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")

@@ -9,9 +9,9 @@ public interface SettlementService {
 
     SettlementDto save(SettlementDto settlementDto);
 
-    SettlementDto findById(Long id) throws NotFoundException;
+    SettlementDto findById(Long id);
 
-    List<SettlementDto> findAll();
+    List<SettlementDto> findAll(int page,int size, String name);
 
     void deleteById(Long id);
 }

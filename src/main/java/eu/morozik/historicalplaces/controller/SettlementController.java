@@ -7,14 +7,7 @@ import eu.morozik.historicalplaces.service.RoleService;
 import eu.morozik.historicalplaces.service.SettlementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,23 +19,29 @@ public class SettlementController {
     private final SettlementService settlementService;
 
     @PostMapping
-    public SettlementDto save(@RequestBody SettlementDto  settlementDto) {
-        return settlementService.save(settlementDto);
+    public ResponseEntity<SettlementDto> save(@RequestBody SettlementDto  settlementDto) {
+        SettlementDto dto = settlementService.save(settlementDto);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
-    public SettlementDto findById(@PathVariable Long id) throws NotFoundException {
-        return settlementService.findById(id);
+    public ResponseEntity<SettlementDto> findById(@PathVariable Long id){
+        SettlementDto dto = settlementService.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public List<SettlementDto> findAll() {
-        return settlementService.findAll();
+    public ResponseEntity<List<SettlementDto>> findAll(@RequestParam int page,
+                                 @RequestParam int size,
+                                 @RequestParam String name) {
+        List<SettlementDto> settlements = settlementService.findAll(page, size, name);
+        return ResponseEntity.ok(settlements);
     }
 
     @PutMapping
-    public SettlementDto update(@RequestBody SettlementDto settlementDto) {
-        return settlementService.save(settlementDto);
+    public ResponseEntity<SettlementDto> update(@RequestBody SettlementDto settlementDto) {
+        SettlementDto dto = settlementService.save(settlementDto);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")

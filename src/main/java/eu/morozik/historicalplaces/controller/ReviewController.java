@@ -1,6 +1,7 @@
 package eu.morozik.historicalplaces.controller;
 
 import eu.morozik.historicalplaces.dto.CountGradeDto;
+import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -27,23 +28,29 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public ReviewDto save(@RequestBody ReviewWithRelationIdsDto reviewWithRelationIdsDto) {
-        return reviewService.save(reviewWithRelationIdsDto);
+    public ResponseEntity<ReviewDto> save(@RequestBody ReviewWithRelationIdsDto reviewWithRelationIdsDto) {
+        ReviewDto dto = reviewService.save(reviewWithRelationIdsDto);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
-    public ReviewDto findById(@PathVariable Long id) throws NotFoundException {
-        return reviewService.findById(id);
+    public ResponseEntity<ReviewDto> findById(@PathVariable Long id) {
+        ReviewDto dto = reviewService.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public List<ReviewDto> findAll() {
-        return reviewService.findAll();
+    public ResponseEntity<List<ReviewDto>> findAll(@RequestParam int page,
+                                                   @RequestParam int size,
+                                                   @RequestParam String name) {
+        List<ReviewDto> reviews = reviewService.findAll(page, size, name);
+        return ResponseEntity.ok(reviews);
     }
 
     @PutMapping
-    public ReviewDto update(@RequestBody ReviewWithRelationIdsDto reviewWithRelationIdsDto) {
-        return reviewService.save(reviewWithRelationIdsDto);
+    public ResponseEntity<ReviewDto> update(@RequestBody ReviewWithRelationIdsDto reviewWithRelationIdsDto) {
+        ReviewDto dto = reviewService.save(reviewWithRelationIdsDto);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
@@ -53,17 +60,20 @@ public class ReviewController {
     }
 
     @GetMapping("/searchFirstGrade")
-    public ReviewDto findFirstByGrade(@RequestParam Long grade){
-        return reviewService.findFirstByGrade(grade);
+    public ResponseEntity<ReviewDto> findFirstByGrade(@RequestParam Long grade) {
+        ReviewDto dto = reviewService.findFirstByGrade(grade);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/countByGradeEquals")
-    public CountGradeDto countByGradeEquals(@RequestParam Long grade){
-        return reviewService.countByGradeEquals(grade);
+    public ResponseEntity<CountGradeDto> countByGradeEquals(@RequestParam Long grade) {
+        CountGradeDto dto = reviewService.countByGradeEquals(grade);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/existsReviewByGrade")
-    public boolean existsReviewByGrade(@RequestParam Long grade){
-        return reviewService.existsReviewByGrade(grade);
+    public ResponseEntity<Boolean> existsReviewByGrade(@RequestParam Long grade) {
+        Boolean isExist = reviewService.existsReviewByGrade(grade);
+        return ResponseEntity.ok(isExist);
     }
 }

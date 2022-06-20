@@ -4,6 +4,7 @@ import eu.morozik.historicalplaces.dao.AddressDao;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
+import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -13,7 +14,12 @@ import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.service.AttractionService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AttractionServiceImpl implements AttractionService {
 
     private final AttractionDao attractionDao;
@@ -40,16 +47,22 @@ public class AttractionServiceImpl implements AttractionService {
 
     @Transactional(readOnly = true)
     @Override
-    public AttractionDto findById(Long id) throws NotFoundException {
-        Attraction attraction = attractionDao.findById(id).orElseThrow(() -> new NotFoundException(id));
+    public AttractionDto findById(Long id) {
+        Attraction attraction = attractionDao.findById(id)
+                .orElseThrow(() -> {
+                    NotFoundException notFoundException = new NotFoundException(id);
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         return modelMapper.map(attraction, AttractionDto.class);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<AttractionDto> findAll() {
-        List<Attraction> attractions = attractionDao.findAll();
-        return (List<AttractionDto>) mapperUtil.map(attractions, AttractionDto.class);
+    public List<AttractionDto> findAll(int page, int size, String name) {
+        Pageable pages = PageRequest.of(page, size, Sort.by(name));
+        Page<Attraction> attractions = attractionDao.findAll(pages);
+        return (List<AttractionDto>) mapperUtil.map(attractions.getContent(), AttractionDto.class);
     }
 
     @Transactional
@@ -69,18 +82,33 @@ public class AttractionServiceImpl implements AttractionService {
         final Attraction attraction = modelMapper.map(attractionWithRelationIdsDto, Attraction.class);
 
         Address address = addressDao.findById(attractionWithRelationIdsDto.getAddress())
-                .orElseThrow(() -> new NotFoundException(attractionWithRelationIdsDto.getAddress()));
+                .orElseThrow(() -> {
+                    NotFoundException notFoundException = new NotFoundException(attractionWithRelationIdsDto
+                            .getAddress());
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         attraction.setAddress(address);
 
         Set<Review> reviews = attractionWithRelationIdsDto.getReviewIds()
                 .stream()
-                .map(id -> reviewDao.findById(id).orElseThrow(() -> new NotFoundException(id)))
+                .map(id -> reviewDao.findById(id)
+                        .orElseThrow(() -> {
+                            NotFoundException notFoundException = new NotFoundException(id);
+                            log.error(notFoundException.getLocalizedMessage());
+                            return notFoundException;
+                        }))
                 .collect(Collectors.toSet());
         attraction.setReviews(reviews);
 
         Set<Attraction> attractions = attractionWithRelationIdsDto.getAttractionIds()
                 .stream()
-                .map(id -> attractionDao.findById(id).orElseThrow(() -> new NotFoundException(id)))
+                .map(id -> attractionDao.findById(id)
+                        .orElseThrow(() -> {
+                            NotFoundException notFoundException = new NotFoundException(id);
+                            log.error(notFoundException.getLocalizedMessage());
+                            return notFoundException;
+                        }))
                 .collect(Collectors.toSet());
         attraction.setSimilarAttractions(attractions);
 

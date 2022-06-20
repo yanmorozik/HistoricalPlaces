@@ -2,7 +2,6 @@ package eu.morozik.historicalplaces.controller;
 
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
-import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,23 +25,29 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserDto save(@RequestBody UserWithRelationIdsDto userWithRelationIdsDto) {
-        return userService.save(userWithRelationIdsDto);
+    public ResponseEntity<UserDto> save(@RequestBody UserWithRelationIdsDto userWithRelationIdsDto) {
+        UserDto dto = userService.save(userWithRelationIdsDto);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
-    public UserDto findById(@PathVariable Long id) throws NotFoundException {
-        return userService.findById(id);
+    public ResponseEntity<UserDto> findById(@PathVariable Long id) {
+        UserDto dto = userService.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public List<UserDto> findAll() {
-        return userService.findAll();
+    public ResponseEntity<List<UserDto>> findAll(@RequestParam int page,
+                                                 @RequestParam int size,
+                                                 @RequestParam String name) {
+        List<UserDto> users = userService.findAll(page, size, name);
+        return ResponseEntity.ok(users);
     }
 
     @PutMapping
-    public UserDto update(@RequestBody UserWithRelationIdsDto userWithRelationIdsDto) {
-        return userService.save(userWithRelationIdsDto);
+    public ResponseEntity<UserDto> update(@RequestBody UserWithRelationIdsDto userWithRelationIdsDto) {
+        UserDto dto = userService.save(userWithRelationIdsDto);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
@@ -52,12 +57,14 @@ public class UserController {
     }
 
     @GetMapping("/findUserByName")
-    List<UserDto> findUserByStatusAndName(String name){
-        return userService.findUserByName(name);
+    ResponseEntity<List<UserDto>> findUserByStatusAndName(String name) {
+        List<UserDto> users = userService.findUserByName(name);
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/findBySurname")
-    List<UserDto> findBySurname(@RequestParam String surname){
-        return userService.findBySurname(surname);
+    ResponseEntity<List<UserDto>> findBySurname(@RequestParam String surname) {
+        List<UserDto> users = userService.findBySurname(surname);
+        return ResponseEntity.ok(users);
     }
 }

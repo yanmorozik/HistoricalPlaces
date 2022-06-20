@@ -2,7 +2,6 @@ package eu.morozik.historicalplaces.controller;
 
 import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingWithRelationIdsDto;
-import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,23 +27,29 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public BookingDto save(@RequestBody BookingWithRelationIdsDto bookingWithRelationIdsDto) {
-        return bookingService.save(bookingWithRelationIdsDto);
+    public ResponseEntity<BookingDto> save(@RequestBody BookingWithRelationIdsDto bookingWithRelationIdsDto) {
+        BookingDto dto = bookingService.save(bookingWithRelationIdsDto);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
-    public BookingDto findById(@PathVariable Long id) throws NotFoundException {
-        return bookingService.findById(id);
+    public ResponseEntity<BookingDto> findById(@PathVariable Long id) {
+        BookingDto dto = bookingService.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public List<BookingDto> findAll() {
-        return bookingService.findAll();
+    public ResponseEntity<List<BookingDto>> findAll(@RequestParam int page,
+                                                    @RequestParam int size,
+                                                    @RequestParam String name) {
+        List<BookingDto> bookings = bookingService.findAll(page, size, name);
+        return ResponseEntity.ok(bookings);
     }
 
     @PutMapping
-    public BookingDto update(@RequestBody BookingWithRelationIdsDto bookingWithRelationIdsDto) {
-        return bookingService.save(bookingWithRelationIdsDto);
+    public ResponseEntity<BookingDto> update(@RequestBody BookingWithRelationIdsDto bookingWithRelationIdsDto) {
+        BookingDto dto = bookingService.save(bookingWithRelationIdsDto);
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
@@ -54,9 +59,10 @@ public class BookingController {
     }
 
     @GetMapping("/findAllByDateBefore")
-    public List<BookingDto> findAllByDateBefore(@RequestParam("date")
-                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                        LocalDateTime date) {
-        return bookingService.findAllByDateBefore(date);
+    public ResponseEntity<List<BookingDto>> findAllByDateBefore(@RequestParam("date")
+                                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                        LocalDateTime date) {
+        List<BookingDto> bookings = bookingService.findAllByDateBefore(date);
+        return ResponseEntity.ok(bookings);
     }
 }

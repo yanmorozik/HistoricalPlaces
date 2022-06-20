@@ -10,7 +10,7 @@ import java.util.List;
 public interface CountryService {
     CountryDto save(CountryDto countryDto);
 
-    CountryDto findById(Long id) throws NotFoundException;
+    CountryDto findById(Long id);
 
     List<CountryDto> findAll(int page,int size, String name);
 

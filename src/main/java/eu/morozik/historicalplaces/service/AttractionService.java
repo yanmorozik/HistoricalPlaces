@@ -11,9 +11,9 @@ public interface AttractionService {
 
     AttractionDto save(AttractionWithRelationIdsDto attractionWithRelationIdsDto);
 
-    AttractionDto findById(Long id) throws NotFoundException;
+    AttractionDto findById(Long id);
 
-    List<AttractionDto> findAll();
+    List<AttractionDto> findAll(int page,int size, String name);
 
     void deleteById(Long id);
 

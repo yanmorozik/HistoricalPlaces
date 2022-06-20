@@ -4,17 +4,24 @@ import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dao.UserDao;
 import eu.morozik.historicalplaces.dto.CountGradeDto;
+import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.exception.NotFoundGradeException;
 import eu.morozik.historicalplaces.model.Attraction;
+import eu.morozik.historicalplaces.model.Booking;
 import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.service.ReviewService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +29,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewDao reviewDao;
@@ -39,16 +47,22 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
-    public ReviewDto findById(Long id) throws NotFoundException {
-        Review review = reviewDao.findById(id).orElseThrow(() -> new NotFoundException(id));
+    public ReviewDto findById(Long id){
+        Review review = reviewDao.findById(id)
+                .orElseThrow(() -> {
+                    NotFoundException notFoundException = new NotFoundException(id);
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         return modelMapper.map(review, ReviewDto.class);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<ReviewDto> findAll() {
-        List<Review> reviews = reviewDao.findAll();
-        return (List<ReviewDto>) mapperUtil.map(reviews, ReviewDto.class);
+    public List<ReviewDto> findAll(int page, int size, String name) {
+        Pageable pages = PageRequest.of(page, size, Sort.by(name));
+        Page<Review> reviews = reviewDao.findAll(pages);
+        return (List<ReviewDto>) mapperUtil.map(reviews.getContent(), ReviewDto.class);
     }
 
     @Transactional
@@ -59,15 +73,25 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
-    public ReviewDto findFirstByGrade(Long grade) throws NotFoundGradeException {
-        Review review = reviewDao.findFirstByGrade(grade).orElseThrow(() -> new NotFoundGradeException(grade));
+    public ReviewDto findFirstByGrade(Long grade){
+        Review review = reviewDao.findFirstByGrade(grade)
+                .orElseThrow(() -> {
+                    NotFoundGradeException notFoundException = new NotFoundGradeException(grade);
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         return modelMapper.map(review, ReviewDto.class);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public CountGradeDto countByGradeEquals(Long grade) throws NotFoundGradeException {
-        Long count = reviewDao.countByGradeEquals(grade).orElseThrow(() -> new NotFoundGradeException(grade));
+    public CountGradeDto countByGradeEquals(Long grade){
+        Long count = reviewDao.countByGradeEquals(grade)
+                .orElseThrow(() -> {
+                    NotFoundGradeException notFoundException = new NotFoundGradeException(grade);
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         return CountGradeDto.builder().countGrade(count).build();
     }
 
@@ -81,11 +105,21 @@ public class ReviewServiceImpl implements ReviewService {
         final Review review = modelMapper.map(reviewWithRelationIdsDto, Review.class);
 
         User user = userDao.findById(reviewWithRelationIdsDto.getUserId())
-                .orElseThrow(() -> new NotFoundException(reviewWithRelationIdsDto.getUserId()));
+                .orElseThrow(() -> {
+                    NotFoundException notFoundException = new NotFoundException(reviewWithRelationIdsDto
+                            .getUserId());
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         review.setUser(user);
 
         Attraction attraction = attractionDao.findById(reviewWithRelationIdsDto.getAttractionId())
-                .orElseThrow(() -> new NotFoundException(reviewWithRelationIdsDto.getAttractionId()));
+                .orElseThrow(() -> {
+                    NotFoundException notFoundException = new NotFoundException(reviewWithRelationIdsDto
+                            .getAttractionId());
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         review.setAttraction(attraction);
 
         return review;

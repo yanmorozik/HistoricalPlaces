@@ -2,7 +2,7 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
-#    container_name: java-postgres
+    container_name: java-postgres
     ports:
       - "45432:5432"
     expose:
@@ -16,8 +16,8 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     restart: always
   app:
-    image: sha256:47aed7758962
-#    container_name: HistoricalPlaces
+    image: historicalplaceimage:latest
+    container_name: HistoricalPlaces
     ports:
       - "8081:8080"
     environment:

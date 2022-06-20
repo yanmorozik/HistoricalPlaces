@@ -11,9 +11,9 @@ public interface BookingService {
 
     BookingDto save(BookingWithRelationIdsDto bookingWithRelationIdsDto);
 
-    BookingDto findById(Long id) throws NotFoundException;
+    BookingDto findById(Long id);
 
-    List<BookingDto> findAll();
+    List<BookingDto> findAll(int page,int size, String name);
 
     void deleteById(Long id);
 

@@ -9,9 +9,9 @@ public interface RoleService {
 
     RoleDto save(RoleDto roleDto);
 
-    RoleDto findById(Long id) throws NotFoundException;
+    RoleDto findById(Long id);
 
-    List<RoleDto> findAll();
+    List<RoleDto> findAll(int page,int size, String name);
 
     void deleteById(Long id);
 }

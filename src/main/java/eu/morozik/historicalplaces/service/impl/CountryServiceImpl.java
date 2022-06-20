@@ -2,14 +2,13 @@ package eu.morozik.historicalplaces.service.impl;
 
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.CountryDao;
-import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.model.Attraction;
 import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.service.CountryService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,12 +16,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CountryServiceImpl implements CountryService {
 
     private final CountryDao countryDao;
@@ -40,8 +39,13 @@ public class CountryServiceImpl implements CountryService {
 
     @Transactional(readOnly = true)
     @Override
-    public CountryDto findById(Long id) throws NotFoundException {
-        Country country = countryDao.findById(id).orElseThrow(() -> new NotFoundException(id));
+    public CountryDto findById(Long id){
+        Country country = countryDao.findById(id)
+                .orElseThrow(() -> {
+                    NotFoundException notFoundException = new NotFoundException(id);
+                    log.error(notFoundException.getLocalizedMessage());
+                    return notFoundException;
+                });
         return modelMapper.map(country, CountryDto.class);
     }
 
