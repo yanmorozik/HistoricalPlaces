@@ -14,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -22,7 +24,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "\"user\"")
 public class User extends BaseEntity {
@@ -40,10 +41,10 @@ public class User extends BaseEntity {
     @JoinColumn(name = "credential_id", referencedColumnName = "id")
     private Credential credential;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     private Set<Booking> bookings = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
     private Set<Review> reviews = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {

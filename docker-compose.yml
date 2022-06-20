@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: java-postgres
+    ports:
+      - "45432:5432"
+    expose:
+      - 5432
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: HistoricalPlacesData
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+  app:
+    image: historicalplaceimage:latest
+    container_name: HistoricalPlaces
+    ports:
+      - "8081:8080"
+    environment:
+      POSTGRES_HOST: postgres
+    restart: always
+    links:
+      - postgres

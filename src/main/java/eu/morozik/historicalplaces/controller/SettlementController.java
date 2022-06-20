@@ -1,0 +1,52 @@
+package eu.morozik.historicalplaces.controller;
+
+import eu.morozik.historicalplaces.dto.RoleDto;
+import eu.morozik.historicalplaces.dto.SettlementDto;
+import eu.morozik.historicalplaces.exception.NotFoundException;
+import eu.morozik.historicalplaces.service.RoleService;
+import eu.morozik.historicalplaces.service.SettlementService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/settlements")
+public class SettlementController {
+
+    private final SettlementService settlementService;
+
+    @PostMapping
+    public ResponseEntity<SettlementDto> save(@RequestBody SettlementDto  settlementDto) {
+        SettlementDto dto = settlementService.save(settlementDto);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SettlementDto> findById(@PathVariable Long id){
+        SettlementDto dto = settlementService.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SettlementDto>> findAll(@RequestParam int page,
+                                 @RequestParam int size,
+                                 @RequestParam String name) {
+        List<SettlementDto> settlements = settlementService.findAll(page, size, name);
+        return ResponseEntity.ok(settlements);
+    }
+
+    @PutMapping
+    public ResponseEntity<SettlementDto> update(@RequestBody SettlementDto settlementDto) {
+        SettlementDto dto = settlementService.save(settlementDto);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        settlementService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+}

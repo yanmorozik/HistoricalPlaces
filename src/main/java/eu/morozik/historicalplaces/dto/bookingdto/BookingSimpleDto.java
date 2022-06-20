@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class BookingSimpleDto {
     private Long id;
 
-    private LocalDateTime bookingData;
+    private LocalDateTime date;
 
     private AttractionSimpleDto attraction;
 }

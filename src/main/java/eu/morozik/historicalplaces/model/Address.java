@@ -14,7 +14,6 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "\"address\"")
 public class Address extends BaseEntity {
@@ -34,6 +33,6 @@ public class Address extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Settlement settlement;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "address", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "address",cascade = CascadeType.ALL)
     private Attraction attraction;
 }

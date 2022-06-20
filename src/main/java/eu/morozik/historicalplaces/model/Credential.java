@@ -13,7 +13,6 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "\"credential\"")
 public class Credential extends BaseEntity {

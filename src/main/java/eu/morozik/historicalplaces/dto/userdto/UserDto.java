@@ -1,5 +1,6 @@
 package eu.morozik.historicalplaces.dto.userdto;
 
+import eu.morozik.historicalplaces.dto.RoleDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewSimpleWithAttractionDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingSimpleDto;
 import eu.morozik.historicalplaces.dto.CredentialDto;
@@ -22,13 +23,9 @@ public class UserDto {
 
     private String surname;
 
-    private Role role;
-
     private Status status;
 
     private CredentialDto credential;
 
-    private Set<BookingSimpleDto> bookings = new HashSet<>();
-
-    private Set<ReviewSimpleWithAttractionDto> reviews = new HashSet<>();
+    private Set<RoleDto> roles = new HashSet<>();
 }

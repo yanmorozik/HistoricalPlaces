@@ -3,6 +3,9 @@ package eu.morozik.historicalplaces.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +22,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "\"attraction\"")
 public class Attraction extends BaseEntity {
@@ -34,16 +36,16 @@ public class Attraction extends BaseEntity {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "attraction", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "attraction", cascade = CascadeType.ALL)
     private Set<Booking> bookings = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "attraction", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "attraction", cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "similar_place",
             joinColumns = @JoinColumn(name = "attraction_id"),
             inverseJoinColumns = @JoinColumn(name = "similar_place_id")
     )
-    private Set<Attraction> attractions = new HashSet<>();
+    private Set<Attraction> similarAttractions = new HashSet<>();
 }

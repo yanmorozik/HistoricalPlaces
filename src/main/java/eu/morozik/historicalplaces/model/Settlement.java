@@ -14,7 +14,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "\"settlement\"")
 public class Settlement extends BaseEntity{
@@ -22,6 +21,6 @@ public class Settlement extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "settlement", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "settlement", cascade = CascadeType.ALL)
     private Set<Address> addresses= new HashSet<>();
 }

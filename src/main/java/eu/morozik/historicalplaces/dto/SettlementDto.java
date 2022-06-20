@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SettlementDto {
-    private String localityName;
+    private Long id;
+    private String name;
 }
