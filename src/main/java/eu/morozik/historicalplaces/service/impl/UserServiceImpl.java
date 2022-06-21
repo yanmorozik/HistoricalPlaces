@@ -1,16 +1,13 @@
 package eu.morozik.historicalplaces.service.impl;
 
 import eu.morozik.historicalplaces.dao.CredentialDao;
-import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dao.RoleDao;
 import eu.morozik.historicalplaces.dao.UserDao;
-import eu.morozik.historicalplaces.dto.SettlementDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.model.Credential;
 import eu.morozik.historicalplaces.model.Role;
-import eu.morozik.historicalplaces.model.Settlement;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.model.enums.Status;
 import eu.morozik.historicalplaces.service.UserService;
@@ -22,9 +19,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private final RoleDao roleDao;
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -85,6 +86,28 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findBySurname(String surname) {
         List<User> users = userDao.findBySurname(surname);
         return (List<UserDto>) mapperUtil.map(users, UserDto.class);
+    }
+
+    @Transactional
+    @Override
+    public UserDto registration(UserDto userDto) {
+
+        Role roleUser = roleDao.findByNameRole("ROLE_USER");
+
+        Credential credential = modelMapper.map(userDto.getCredential(),Credential.class);
+        credential.setPassword(passwordEncoder.encode(userDto.getCredential().getPassword()));
+
+        credentialDao.save(credential);
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleUser);
+
+        final User user = modelMapper.map(userDto, User.class);
+        user.setRoles(roles);
+        user.setCredential(credential);
+        user.setStatus(Status.ACTIVE);
+        userDao.save(user);
+        return modelMapper.map(user, UserDto.class);
     }
 
     public User reassignment(UserWithRelationIdsDto userWithRelationIdsDto) {

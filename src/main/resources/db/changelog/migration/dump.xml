@@ -8,27 +8,27 @@
     <changeSet id="12.insert-credential-table" author="Yan Morozik">
         <insert tableName="credential">
             <column name="login" value="admin@mail.ru"/>
-            <column name="password" value="passwordA"/>
+            <column name="password" value="$2a$12$OYCOQVfTWo6zJ1z4Hlby3u/3bdLGtqv0.CWNTuPY8zRXQtBIMogIG"/>
         </insert>
         <insert tableName="credential">
             <column name="login" value="user1@mail.ru"/>
-            <column name="password" value="passwordU1"/>
+            <column name="password" value="$2a$12$OYCOQVfTWo6zJ1z4Hlby3u/3bdLGtqv0.CWNTuPY8zRXQtBIMogIG"/>
         </insert>
         <insert tableName="credential">
             <column name="login" value="user2@mail.ru"/>
-            <column name="password" value="passwordU2"/>
+            <column name="password" value="$2a$12$OYCOQVfTWo6zJ1z4Hlby3u/3bdLGtqv0.CWNTuPY8zRXQtBIMogIG"/>
         </insert>
         <insert tableName="credential">
             <column name="login" value="user3@mail.ru"/>
-            <column name="password" value="passwordU3"/>
+            <column name="password" value="$2a$12$OYCOQVfTWo6zJ1z4Hlby3u/3bdLGtqv0.CWNTuPY8zRXQtBIMogIG"/>
         </insert>
         <insert tableName="credential">
             <column name="login" value="user4@mail.ru"/>
-            <column name="password" value="passwordU4"/>
+            <column name="password" value="$2a$12$OYCOQVfTWo6zJ1z4Hlby3u/3bdLGtqv0.CWNTuPY8zRXQtBIMogIG"/>
         </insert>
         <insert tableName="credential">
             <column name="login" value="user5@mail.ru"/>
-            <column name="password" value="passwordU5"/>
+            <column name="password" value="$2a$12$OYCOQVfTWo6zJ1z4Hlby3u/3bdLGtqv0.CWNTuPY8zRXQtBIMogIG"/>
         </insert>
     </changeSet>
 

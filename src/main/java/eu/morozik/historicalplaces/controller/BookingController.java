@@ -6,6 +6,7 @@ import eu.morozik.historicalplaces.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,18 +28,21 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BookingDto> save(@RequestBody BookingWithRelationIdsDto bookingWithRelationIdsDto) {
         BookingDto dto = bookingService.save(bookingWithRelationIdsDto);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BookingDto> findById(@PathVariable Long id) {
         BookingDto dto = bookingService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<BookingDto>> findAll(@RequestParam int page,
                                                     @RequestParam int size,
                                                     @RequestParam String name) {
@@ -47,18 +51,21 @@ public class BookingController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<BookingDto> update(@RequestBody BookingWithRelationIdsDto bookingWithRelationIdsDto) {
         BookingDto dto = bookingService.save(bookingWithRelationIdsDto);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         bookingService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/findAllByDateBefore")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<BookingDto>> findAllByDateBefore(@RequestParam("date")
                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                         LocalDateTime date) {

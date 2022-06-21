@@ -5,6 +5,7 @@ import eu.morozik.historicalplaces.dto.addressdto.AddressWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,18 +26,21 @@ public class AddressController {
     private final AddressService addressService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AddressDto> save(@RequestBody AddressWithRelationIdsDto addressWithRelationIdsDto) {
         AddressDto dto = addressService.save(addressWithRelationIdsDto);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AddressDto> findById(@PathVariable Long id){
         AddressDto dto = addressService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<AddressDto>> findAll(@RequestParam int page,
                                     @RequestParam int size,
                                     @RequestParam String name) {
@@ -45,12 +49,14 @@ public class AddressController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AddressDto> update(@RequestBody AddressWithRelationIdsDto addressWithRelationIdsDto) {
         AddressDto dto = addressService.save(addressWithRelationIdsDto);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         addressService.deleteById(id);
         return ResponseEntity.noContent().build();

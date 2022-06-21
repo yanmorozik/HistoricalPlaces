@@ -19,4 +19,6 @@ public interface UserService {
     List<UserDto> findUserByName( String name);
 
     List<UserDto> findBySurname(String surname);
+
+    UserDto registration(UserDto userDto);
 }

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,18 +28,21 @@ public class CountryController {
     private final CountryService countryService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CountryDto> save(@RequestBody CountryDto countryDto) {
         CountryDto dto = countryService.save(countryDto);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CountryDto> findById(@PathVariable Long id) {
         CountryDto dto = countryService.findById(id);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<CountryDto>> findAll(@RequestParam int page,
                                                     @RequestParam int size,
                                                     @RequestParam String name) {
@@ -47,12 +51,14 @@ public class CountryController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CountryDto> update(@RequestBody CountryDto countryDto) {
         CountryDto dto = countryService.save(countryDto);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         countryService.deleteById(id);
         return ResponseEntity.noContent().build();
