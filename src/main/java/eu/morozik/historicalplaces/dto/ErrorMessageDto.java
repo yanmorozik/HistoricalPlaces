@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class ErrorMessageDto {
+
     private String message;
     private HttpStatus status;
     private LocalDateTime timestamp;
