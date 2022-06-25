@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Slf4j
-public class MyAspect {
+public class AnnotationAspect {
 
-    @Pointcut("execution(public * eu.morozik.historicalplaces.controller..*(..))  ||" +
-            "execution(public * eu.morozik.historicalplaces.service..*(..))")
-    public void callAtMyServicePublic() {
+    @Pointcut("@annotation(ExecutionTime)")
+    public void execute() {
     }
 
-    @Around("callAtMyServicePublic()")
+    @Around("execute()")
     public Object aroundCallAt(ProceedingJoinPoint call) throws Throwable {
-        String ANSI_RESET = "\u001B[0m";
-        String ANSI_PURPLE = "\u001B[35m";
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_PURPLE = "\u001B[35m";
+
         Long start = System.currentTimeMillis();
         call.proceed();
         Long end = System.currentTimeMillis();

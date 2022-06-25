@@ -1,8 +1,12 @@
 package eu.morozik.historicalplaces.service;
 
+import eu.morozik.historicalplaces.dto.AuthenticationDto;
+import eu.morozik.historicalplaces.dto.AuthenticationDtoWithToken;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -19,6 +23,8 @@ public interface UserService {
     List<UserDto> findUserByName( String name);
 
     List<UserDto> findBySurname(String surname);
+
+    AuthenticationDtoWithToken authenticate(AuthenticationDto dto);
 
     UserDto registration(UserDto userDto);
 }

@@ -2,6 +2,7 @@ package eu.morozik.historicalplaces.security;
 
 import eu.morozik.historicalplaces.dao.UserDao;
 import eu.morozik.historicalplaces.model.User;
+import eu.morozik.historicalplaces.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,9 +26,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 new UsernameNotFoundException("User doesn't exists"));
 
         List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(/*"ROLE_" +*/ role.getNameRole()))
+                .map(role -> new SimpleGrantedAuthority(role.getNameRole()))
                 .collect(Collectors.toList());
 
-        return SecurityUser.fromUser(user,grantedAuthorities);
+        return new org.springframework.security.core.userdetails.User(
+                user.getCredential().getLogin(), user.getCredential().getPassword(),
+                user.getStatus().equals(Status.ACTIVE),
+                user.getStatus().equals(Status.ACTIVE),
+                user.getStatus().equals(Status.ACTIVE),
+                user.getStatus().equals(Status.ACTIVE),
+                grantedAuthorities
+        );
     }
 }

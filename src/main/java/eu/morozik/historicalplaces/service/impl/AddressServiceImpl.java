@@ -12,6 +12,7 @@ import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Settlement;
 import eu.morozik.historicalplaces.service.AddressService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
+import eu.morozik.starter.aspect.ExecutionTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -36,6 +37,7 @@ public class AddressServiceImpl implements AddressService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    @ExecutionTime
     @Transactional
     @Override
     public AddressDto save(AddressWithRelationIdsDto addressWithRelationIdsDto) {

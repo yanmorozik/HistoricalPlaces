@@ -16,5 +16,6 @@ public interface UserDao extends JpaRepository<User, Long> {
     @EntityGraph(attributePaths = {"credential"})
     List<User> findBySurname(String surname);
 
+    @EntityGraph(attributePaths = {"credential"})
     Optional<User> findByCredentialLogin(String login);
 }

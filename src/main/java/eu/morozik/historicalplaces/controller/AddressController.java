@@ -3,6 +3,7 @@ package eu.morozik.historicalplaces.controller;
 import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AddressService;
+import eu.morozik.starter.aspect.ExecutionTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +26,7 @@ public class AddressController {
 
     private final AddressService addressService;
 
+    @ExecutionTime
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AddressDto> save(@RequestBody AddressWithRelationIdsDto addressWithRelationIdsDto) {

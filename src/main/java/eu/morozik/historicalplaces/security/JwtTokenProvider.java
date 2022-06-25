@@ -15,11 +15,11 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
@@ -63,17 +63,17 @@ public class JwtTokenProvider {
         return !claimsJws.getBody().getExpiration().before(new Date());
     }
 
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getUsername(String token){
+    public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request){
-        String bearerToken = request.getHeader("Authorization");
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(authorizationHeader);
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }
@@ -81,10 +81,6 @@ public class JwtTokenProvider {
     }
 
     private List<String> getRoleNames(Set<Role> userRoles) {
-        List<String> result = new ArrayList<>();
-
-        userRoles.forEach(role -> result.add(role.getNameRole()));
-
-        return result;
+        return userRoles.stream().map(Role::getNameRole).collect(Collectors.toList());
     }
 }

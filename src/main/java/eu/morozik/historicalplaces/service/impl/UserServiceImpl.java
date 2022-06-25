@@ -3,6 +3,8 @@ package eu.morozik.historicalplaces.service.impl;
 import eu.morozik.historicalplaces.dao.CredentialDao;
 import eu.morozik.historicalplaces.dao.RoleDao;
 import eu.morozik.historicalplaces.dao.UserDao;
+import eu.morozik.historicalplaces.dto.AuthenticationDto;
+import eu.morozik.historicalplaces.dto.AuthenticationDtoWithToken;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -10,6 +12,7 @@ import eu.morozik.historicalplaces.model.Credential;
 import eu.morozik.historicalplaces.model.Role;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.model.enums.Status;
+import eu.morozik.historicalplaces.security.JwtTokenProvider;
 import eu.morozik.historicalplaces.service.UserService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +44,8 @@ public class UserServiceImpl implements UserService {
     private final RoleDao roleDao;
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -90,11 +98,20 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
+    public AuthenticationDtoWithToken authenticate(AuthenticationDto dto) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getLogin(), dto.getPassword()));
+        User user = userDao.findByCredentialLogin(dto.getLogin()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+        String token = jwtTokenProvider.creatToken(dto.getLogin(), user.getRoles());
+        return AuthenticationDtoWithToken.builder().login(dto.getLogin()).token(token).build();
+    }
+
+    @Transactional
+    @Override
     public UserDto registration(UserDto userDto) {
 
         Role roleUser = roleDao.findByNameRole("ROLE_USER");
 
-        Credential credential = modelMapper.map(userDto.getCredential(),Credential.class);
+        Credential credential = modelMapper.map(userDto.getCredential(), Credential.class);
         credential.setPassword(passwordEncoder.encode(userDto.getCredential().getPassword()));
 
         credentialDao.save(credential);
@@ -113,7 +130,8 @@ public class UserServiceImpl implements UserService {
     public User reassignment(UserWithRelationIdsDto userWithRelationIdsDto) {
         final User user = modelMapper.map(userWithRelationIdsDto, User.class);
 
-        user.setStatus(Status.getStatus(userWithRelationIdsDto.getStatusId()));
+        Status[] statuses = Status.values();
+        user.setStatus(statuses[Math.toIntExact(userWithRelationIdsDto.getStatusId())]);
 
         Credential credential = credentialDao.findById(userWithRelationIdsDto.getCredentialId())
                 .orElseThrow(() -> {
