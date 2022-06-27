@@ -41,10 +41,10 @@ public class User extends BaseEntity {
     @JoinColumn(name = "credential_id", referencedColumnName = "id")
     private Credential credential;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Booking> bookings = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL/*, orphanRemoval = true*/)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {

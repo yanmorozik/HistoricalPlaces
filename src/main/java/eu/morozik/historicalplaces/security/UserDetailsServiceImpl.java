@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service("userDetailsServiceImpl")
+@Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -30,7 +30,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(
-                user.getCredential().getLogin(), user.getCredential().getPassword(),
+                user.getCredential().getLogin(),
+                user.getCredential().getPassword(),
                 user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),
                 user.getStatus().equals(Status.ACTIVE),
