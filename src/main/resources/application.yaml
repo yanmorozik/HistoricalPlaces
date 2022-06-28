@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/HistoricalPlacesData
+    url: jdbc:postgresql://postgres:5432/HistoricalPlacesData
     username: postgres
     password: postgres
   jpa:
@@ -18,11 +18,21 @@ spring:
     open-in-view: false
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
 
 jwt:
   header: "Authorization"
   secret: "youaretooyoungtobeafraidoffailure"
   expiration: "604800"
+
+rabbit:
+  exchange: myrabbitmq.direct
+  routing-key: myrabbitmq.routingkey
+  default-receive-queue: myrabbitmq.queue
 
 #server:
 #  port: 8081

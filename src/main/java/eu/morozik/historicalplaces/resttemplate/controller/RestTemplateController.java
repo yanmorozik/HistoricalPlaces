@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.resttemplatecontroller;
+package eu.morozik.historicalplaces.resttemplate.controller;
 
 import eu.morozik.historicalplaces.dto.PeopleDto;
 import lombok.RequiredArgsConstructor;
