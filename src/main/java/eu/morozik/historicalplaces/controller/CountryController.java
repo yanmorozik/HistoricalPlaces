@@ -3,6 +3,8 @@ package eu.morozik.historicalplaces.controller;
 import eu.morozik.historicalplaces.service.CountryService;
 import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/countries")
+@Api(tags = "Countries")
 public class CountryController {
 
     private final CountryService countryService;
@@ -36,6 +39,7 @@ public class CountryController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ApiOperation(value = "This method return country by id.")
     public ResponseEntity<CountryDto> findById(@PathVariable Long id) {
         CountryDto dto = countryService.findById(id);
         return ResponseEntity.ok(dto);
