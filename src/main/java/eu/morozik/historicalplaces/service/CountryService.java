@@ -14,5 +14,8 @@ public interface CountryService {
 
     List<CountryDto> findAll(int page,int size, String name);
 
+    List<CountryDto> findAll();
+
     void deleteById(Long id);
+
 }

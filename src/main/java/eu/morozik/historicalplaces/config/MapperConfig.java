@@ -12,11 +12,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 public class MapperConfig {
+
     @Bean
     public ModelMapper getMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         //modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT); // model mapper преобразует только те поля обьекта, которые он может (Строгое соответствие свойств источника и назначения)
         return modelMapper;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return objectMapper;
     }
 }

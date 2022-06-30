@@ -1,6 +1,9 @@
 package eu.morozik.historicalplaces.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
@@ -14,6 +17,9 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "\"country\"")
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class Country extends BaseEntity{
 
     @Column(name = "name")

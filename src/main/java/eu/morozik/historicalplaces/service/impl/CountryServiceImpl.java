@@ -57,6 +57,12 @@ public class CountryServiceImpl implements CountryService {
         return (List<CountryDto>) mapperUtil.map(countries.getContent(), CountryDto.class);
     }
 
+    @Override
+    public List<CountryDto> findAll() {
+        List<Country> countries = countryDao.findAll();
+        return (List<CountryDto>) mapperUtil.map(countries,CountryDto.class);
+    }
+
     @Transactional
     @Override
     public void deleteById(Long id) {
