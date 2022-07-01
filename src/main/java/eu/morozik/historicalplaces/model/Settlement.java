@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"settlement\"")
+@Table(name = "\"settlement\"",schema = "public")
 public class Settlement extends BaseEntity{
 
     @Column(name = "name")

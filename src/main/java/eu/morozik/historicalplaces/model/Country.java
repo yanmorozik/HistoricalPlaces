@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"country\"")
+@Table(name = "\"country\"",schema = "public")
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor

@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"attraction\"")
+@Table(name = "\"attraction\"",schema = "public")
 public class Attraction extends BaseEntity {
 
     @Column(name = "name")

@@ -22,7 +22,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "\"user\"",schema = "public")
 public class User extends BaseEntity {
 
     @Column(name = "first_name")

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "\"credential\"")
+@Table(name = "\"credential\"",schema = "public")
 public class Credential extends BaseEntity {
 
     @Column(name = "login")
