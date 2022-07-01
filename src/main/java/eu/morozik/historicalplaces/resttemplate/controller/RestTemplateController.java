@@ -13,11 +13,11 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/resttemplate")
 public class RestTemplateController {
 
-    RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     @GetMapping("/simpleresponse")
     public String simpleResponse() {
-        String url = "http://localhost:8082/myapp/simpleresponse";
+        String url = "http://app2:8080/myapp/simpleresponse";
         String result = restTemplate.getForObject(url, String.class);
         System.out.println(result);
         return result;
@@ -25,7 +25,7 @@ public class RestTemplateController {
 
     @GetMapping("responsedto")
     public PeopleDto responseDto(@RequestParam String name) {
-        String url = "http://localhost:8082/myapp/responsedto?name=" + name;
+        String url = "http://app2:8080/myapp/responsedto?name=" + name;
         return restTemplate.getForObject(url, PeopleDto.class);
     }
 }
