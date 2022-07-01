@@ -1,17 +1,17 @@
 version: '3'
 services:
   postgres:
-    image: postgres:latest
+    image: "postgres:${POSTGRES_VERSION}"
     container_name: java-postgres
     ports:
-      - "45432:5432"
+      - "${POSTGRES_PORTS}"
     expose:
       - 5432
     volumes:
       - ./pg_data:/var/lib/postgresql/data/pgdata
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWRODR}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: HistoricalPlacesData
       PGDATA: /var/lib/postgresql/data/pgdata
     restart: always
