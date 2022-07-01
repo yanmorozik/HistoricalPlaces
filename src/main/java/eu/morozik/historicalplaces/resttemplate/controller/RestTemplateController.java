@@ -24,8 +24,8 @@ public class RestTemplateController {
     }
 
     @GetMapping("responsedto")
-    public PeopleDto responseDto(@RequestParam String name){
-        String url = "http://localhost:8082/myapp/responsedto?name="+name;
-        return restTemplate.getForObject(url,PeopleDto.class);
+    public PeopleDto responseDto(@RequestParam String name) {
+        String url = "http://localhost:8082/myapp/responsedto?name=" + name;
+        return restTemplate.getForObject(url, PeopleDto.class);
     }
 }

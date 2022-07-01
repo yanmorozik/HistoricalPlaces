@@ -3,7 +3,6 @@ package eu.morozik.historicalplaces.service.impl;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.BookingDao;
 import eu.morozik.historicalplaces.dao.UserDao;
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;

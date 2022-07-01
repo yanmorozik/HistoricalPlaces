@@ -13,7 +13,7 @@ public class MapperUtil {
 
     private final ModelMapper modelMapper;
 
-    public <X, T> Collection<X> map(Collection<T> collection, Class<X> castType){
+    public <X, T> Collection<X> map(Collection<T> collection, Class<X> castType) {
         return collection
                 .stream()
                 .map(entity -> modelMapper.map(entity, castType))

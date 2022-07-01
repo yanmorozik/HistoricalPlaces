@@ -16,12 +16,14 @@ import org.modelmapper.ModelMapper;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 import static eu.morozik.historicalplaces.prototype.CountryPrototype.aCountry;
 import static eu.morozik.historicalplaces.prototype.CountryPrototype.aCountryDto;
-import static eu.morozik.historicalplaces.prototype.CountryPrototype.aCountryFindAll;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CountryServiceImplTest {
@@ -31,14 +33,12 @@ public class CountryServiceImplTest {
     @Mock
     private AttractionDao attractionDao;
     private CountryService countryService;
-    private ModelMapper modelMapper;
-    private MapperUtil mapperUtil;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        modelMapper = new ModelMapper();
-        mapperUtil = new MapperUtil(modelMapper);
+        ModelMapper modelMapper = new ModelMapper();
+        MapperUtil mapperUtil = new MapperUtil(modelMapper);
         countryService = new CountryServiceImpl(countryDao, attractionDao, modelMapper, mapperUtil);
 
     }
@@ -67,7 +67,7 @@ public class CountryServiceImplTest {
     }
 
     @Test
-    public void update(){
+    public void update() {
         when(countryDao.save(any())).thenReturn(aCountry());
         CountryDto createdCountry = countryService.save(aCountryDto());
         assertThat(createdCountry.getName()).isEqualTo(aCountryDto().getName());

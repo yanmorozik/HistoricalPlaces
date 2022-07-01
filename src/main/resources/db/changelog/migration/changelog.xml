@@ -66,7 +66,7 @@
 
     <changeSet id="05.create-settlement-table" author="Yan Morozik">
         <createTable tableName="settlement">
-            <column name="id" type="bigserial" >
+            <column name="id" type="bigserial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(64)"/>
@@ -75,7 +75,7 @@
 
     <changeSet id="06.create-country-table" author="Yan Morozik">
         <createTable tableName="country">
-            <column name="id" type="bigserial" >
+            <column name="id" type="bigserial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(64)"/>
@@ -84,12 +84,12 @@
 
     <changeSet id="07.create-address-table" author="Yan Morozik">
         <createTable tableName="address">
-            <column name="id" type="bigserial" >
+            <column name="id" type="bigserial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="settlement_id" type="bigint"/>
             <column name="country_id" type="bigint"/>
-<!--            <column name="attraction_id" type="bigint"/>-->
+            <!--            <column name="attraction_id" type="bigint"/>-->
             <column name="street" type="varchar(64)"/>
             <column name="house" type="varchar(64)"/>
             <column name="apartment" type="bigint"/>
@@ -103,16 +103,16 @@
                                  constraintName="address_country_fkey"
                                  referencedTableName="country"
                                  referencedColumnNames="id"/>
-<!--        <addForeignKeyConstraint baseTableName="address" baseColumnNames="attraction_id"-->
-<!--                                 constraintName="address_attraction_fkey"-->
-<!--                                 referencedTableName="attraction"-->
-<!--                                 referencedColumnNames="id"/>-->
+        <!--        <addForeignKeyConstraint baseTableName="address" baseColumnNames="attraction_id"-->
+        <!--                                 constraintName="address_attraction_fkey"-->
+        <!--                                 referencedTableName="attraction"-->
+        <!--                                 referencedColumnNames="id"/>-->
     </changeSet>
 
 
     <changeSet id="08.create-attraction-table" author="Yan Morozik">
         <createTable tableName="attraction">
-            <column name="id" type="bigserial" >
+            <column name="id" type="bigserial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="address_id" type="bigint"/>
@@ -150,7 +150,7 @@
 
     <changeSet id="10.create-review-table" author="Yan Morozik">
         <createTable tableName="review">
-            <column name="id" type="bigserial" >
+            <column name="id" type="bigserial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="bigint"/>
@@ -171,7 +171,7 @@
 
     <changeSet id="11.create-booking-table" author="Yan Morozik">
         <createTable tableName="booking">
-            <column name="id" type="bigserial" >
+            <column name="id" type="bigserial">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="bigint"/>

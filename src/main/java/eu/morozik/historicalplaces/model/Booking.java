@@ -2,7 +2,6 @@ package eu.morozik.historicalplaces.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "\"booking\"")
-public class Booking extends BaseEntity{
+public class Booking extends BaseEntity {
 
     @Column(name = "date")
     private LocalDateTime date;

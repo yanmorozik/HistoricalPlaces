@@ -39,7 +39,7 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Transactional(readOnly = true)
     @Override
-    public SettlementDto findById(Long id){
+    public SettlementDto findById(Long id) {
         Settlement settlement = settlementDao.findById(id)
                 .orElseThrow(() -> {
                     NotFoundException notFoundException = new NotFoundException(id);

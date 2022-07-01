@@ -17,7 +17,6 @@ public class MapperConfig {
     public ModelMapper getMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true);
-        //modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT); // model mapper преобразует только те поля обьекта, которые он может (Строгое соответствие свойств источника и назначения)
         return modelMapper;
     }
 

@@ -2,7 +2,6 @@ package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressWithRelationIdsDto;
-import eu.morozik.historicalplaces.exception.NotFoundException;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface AddressService {
 
     AddressDto findById(Long id);
 
-    List<AddressDto> findAll(int page,int size, String name);
+    List<AddressDto> findAll(int page, int size, String name);
 
     void deleteById(Long id);
 }

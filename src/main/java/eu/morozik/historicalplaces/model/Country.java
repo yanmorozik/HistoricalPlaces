@@ -20,7 +20,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Country extends BaseEntity{
+public class Country extends BaseEntity {
 
     @Column(name = "name")
     private String name;

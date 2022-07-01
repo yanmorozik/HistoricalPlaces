@@ -4,13 +4,11 @@ import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dao.UserDao;
 import eu.morozik.historicalplaces.dto.CountGradeDto;
-import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.exception.NotFoundGradeException;
 import eu.morozik.historicalplaces.model.Attraction;
-import eu.morozik.historicalplaces.model.Booking;
 import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.service.ReviewService;
@@ -47,7 +45,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
-    public ReviewDto findById(Long id){
+    public ReviewDto findById(Long id) {
         Review review = reviewDao.findById(id)
                 .orElseThrow(() -> {
                     NotFoundException notFoundException = new NotFoundException(id);
@@ -73,7 +71,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
-    public ReviewDto findFirstByGrade(Long grade){
+    public ReviewDto findFirstByGrade(Long grade) {
         Review review = reviewDao.findFirstByGrade(grade)
                 .orElseThrow(() -> {
                     NotFoundGradeException notFoundException = new NotFoundGradeException(grade);
@@ -85,7 +83,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional(readOnly = true)
     @Override
-    public CountGradeDto countByGradeEquals(Long grade){
+    public CountGradeDto countByGradeEquals(Long grade) {
         Long count = reviewDao.countByGradeEquals(grade)
                 .orElseThrow(() -> {
                     NotFoundGradeException notFoundException = new NotFoundGradeException(grade);

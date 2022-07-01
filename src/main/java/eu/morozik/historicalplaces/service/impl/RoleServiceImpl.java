@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional(readOnly = true)
     @Override
-    public RoleDto findById(Long id){
+    public RoleDto findById(Long id) {
         Role role = roleDao.findById(id)
                 .orElseThrow(() -> {
                     NotFoundException notFoundException = new NotFoundException(id);

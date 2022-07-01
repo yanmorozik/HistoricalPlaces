@@ -2,7 +2,6 @@ package eu.morozik.historicalplaces.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,11 +1,9 @@
 package eu.morozik.historicalplaces.controller;
 
 import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
-import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
+import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AttractionService;
-import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
-import eu.morozik.historicalplaces.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,13 +29,13 @@ public class AttractionController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AttractionDto> save(@RequestBody AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
-       AttractionDto dto = attractionService.save(attractionWithRelationIdsDto);
+        AttractionDto dto = attractionService.save(attractionWithRelationIdsDto);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<AttractionDto> findById(@PathVariable Long id){
+    public ResponseEntity<AttractionDto> findById(@PathVariable Long id) {
         AttractionDto dto = attractionService.findById(id);
         return ResponseEntity.ok(dto);
     }
@@ -45,8 +43,8 @@ public class AttractionController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<AttractionDto>> findAll(@RequestParam int page,
-                                    @RequestParam int size,
-                                    @RequestParam String name) {
+                                                       @RequestParam int size,
+                                                       @RequestParam String name) {
         List<AttractionDto> attractions = attractionService.findAll(page, size, name);
         return ResponseEntity.ok(attractions);
     }
@@ -67,7 +65,7 @@ public class AttractionController {
 
     @GetMapping("/findByName")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<AttractionView> findByName(@RequestParam String name){
+    public ResponseEntity<AttractionView> findByName(@RequestParam String name) {
         AttractionView view = attractionService.findByName(name);
         return ResponseEntity.ok(view);
     }

@@ -1,9 +1,6 @@
 package eu.morozik.historicalplaces.controller;
 
-import eu.morozik.historicalplaces.dto.RoleDto;
 import eu.morozik.historicalplaces.dto.SettlementDto;
-import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.service.RoleService;
 import eu.morozik.historicalplaces.service.SettlementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +18,14 @@ public class SettlementController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<SettlementDto> save(@RequestBody SettlementDto  settlementDto) {
+    public ResponseEntity<SettlementDto> save(@RequestBody SettlementDto settlementDto) {
         SettlementDto dto = settlementService.save(settlementDto);
         return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<SettlementDto> findById(@PathVariable Long id){
+    public ResponseEntity<SettlementDto> findById(@PathVariable Long id) {
         SettlementDto dto = settlementService.findById(id);
         return ResponseEntity.ok(dto);
     }
@@ -36,8 +33,8 @@ public class SettlementController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<SettlementDto>> findAll(@RequestParam int page,
-                                 @RequestParam int size,
-                                 @RequestParam String name) {
+                                                       @RequestParam int size,
+                                                       @RequestParam String name) {
         List<SettlementDto> settlements = settlementService.findAll(page, size, name);
         return ResponseEntity.ok(settlements);
     }

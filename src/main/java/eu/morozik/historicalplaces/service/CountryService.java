@@ -1,9 +1,6 @@
 package eu.morozik.historicalplaces.service;
 
-import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dto.CountryDto;
-import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.model.Attraction;
 
 import java.util.List;
 
@@ -12,7 +9,7 @@ public interface CountryService {
 
     CountryDto findById(Long id);
 
-    List<CountryDto> findAll(int page,int size, String name);
+    List<CountryDto> findAll(int page, int size, String name);
 
     List<CountryDto> findAll();
 

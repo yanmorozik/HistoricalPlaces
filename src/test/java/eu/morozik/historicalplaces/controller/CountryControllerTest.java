@@ -17,8 +17,13 @@ import static eu.morozik.historicalplaces.prototype.CountryPrototype.aCountryDto
 import static eu.morozik.historicalplaces.prototype.CountryPrototype.aCountryDtoFindAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 public class CountryControllerTest {
@@ -39,8 +44,8 @@ public class CountryControllerTest {
     void save() throws Exception {
         when(countryService.save(any())).thenReturn(aCountryDto());
         mockMvc.perform(post("/countries")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(aCountryDto())))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(aCountryDto())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(aCountryDto())))
@@ -51,8 +56,8 @@ public class CountryControllerTest {
     void findById() throws Exception {
         when(countryService.findById(any())).thenReturn(aCountryDto());
         mockMvc.perform(get("/countries/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(aCountryDto())))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(aCountryDto())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(aCountryDto())))
@@ -65,7 +70,7 @@ public class CountryControllerTest {
         String name = "name";
         when(countryService.findAll(page, size, name)).thenReturn(Collections.singletonList(aCountryDtoFindAll()));
         mockMvc.perform(get("/countries?page=" + page + "&size=" + size + "&name=" + name)
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(aCountryDtoFindAll()))))
                 .andExpect(status().isOk());
     }
@@ -74,8 +79,8 @@ public class CountryControllerTest {
     public void updateTest() throws Exception {
 
         mockMvc.perform(put("/countries")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(aCountryDto())))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(aCountryDto())))
                 .andExpect(status().isOk());
     }
 

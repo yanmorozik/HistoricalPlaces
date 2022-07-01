@@ -39,7 +39,7 @@ public class CountryServiceImpl implements CountryService {
 
     @Transactional(readOnly = true)
     @Override
-    public CountryDto findById(Long id){
+    public CountryDto findById(Long id) {
         Country country = countryDao.findById(id)
                 .orElseThrow(() -> {
                     NotFoundException notFoundException = new NotFoundException(id);
@@ -60,7 +60,7 @@ public class CountryServiceImpl implements CountryService {
     @Override
     public List<CountryDto> findAll() {
         List<Country> countries = countryDao.findAll();
-        return (List<CountryDto>) mapperUtil.map(countries,CountryDto.class);
+        return (List<CountryDto>) mapperUtil.map(countries, CountryDto.class);
     }
 
     @Transactional

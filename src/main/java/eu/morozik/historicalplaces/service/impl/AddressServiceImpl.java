@@ -76,16 +76,16 @@ public class AddressServiceImpl implements AddressService {
         final Address address = modelMapper.map(addressWithRelationIdsDto, Address.class);
 
         Country country = countryDao.findById(addressWithRelationIdsDto.getCountryId())
-                .orElseThrow(() ->{
+                .orElseThrow(() -> {
                     NotFoundException notFoundException = new NotFoundException(addressWithRelationIdsDto
                             .getCountryId());
                     log.error(notFoundException.getLocalizedMessage());
                     return notFoundException;
-                    });
+                });
         address.setCountry(country);
 
         Settlement settlement = settlementDao.findById(addressWithRelationIdsDto.getSettlementId())
-                .orElseThrow(() ->{
+                .orElseThrow(() -> {
                     NotFoundException notFoundException = new NotFoundException(addressWithRelationIdsDto
                             .getSettlementId());
                     log.error(notFoundException.getLocalizedMessage());

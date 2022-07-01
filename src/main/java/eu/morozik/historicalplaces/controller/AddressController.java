@@ -36,7 +36,7 @@ public class AddressController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<AddressDto> findById(@PathVariable Long id){
+    public ResponseEntity<AddressDto> findById(@PathVariable Long id) {
         AddressDto dto = addressService.findById(id);
         return ResponseEntity.ok(dto);
     }
@@ -44,8 +44,8 @@ public class AddressController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<List<AddressDto>> findAll(@RequestParam int page,
-                                    @RequestParam int size,
-                                    @RequestParam String name) {
+                                                    @RequestParam int size,
+                                                    @RequestParam String name) {
         List<AddressDto> addresses = addressService.findAll(page, size, name);
         return ResponseEntity.ok(addresses);
     }

@@ -14,14 +14,14 @@ public class CountryPrototype {
         return country;
     }
 
-    public static CountryDto aCountryDto(){
+    public static CountryDto aCountryDto() {
         return CountryDto.builder()
                 .id(1L)
                 .name("test")
                 .build();
     }
 
-    public static CountryDto aCountryDtoFindAll(){
+    public static CountryDto aCountryDtoFindAll() {
         return CountryDto.builder()
                 .id(3L)
                 .name("Ukraine")
