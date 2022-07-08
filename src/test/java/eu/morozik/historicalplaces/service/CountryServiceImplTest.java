@@ -3,7 +3,9 @@ package eu.morozik.historicalplaces.service;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.CountryDao;
 import eu.morozik.historicalplaces.dto.CountryDto;
+import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.service.impl.CountryServiceImpl;
+import eu.morozik.historicalplaces.specification.SpecificationCreator;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +41,8 @@ public class CountryServiceImplTest {
         MockitoAnnotations.openMocks(this);
         ModelMapper modelMapper = new ModelMapper();
         MapperUtil mapperUtil = new MapperUtil(modelMapper);
-        countryService = new CountryServiceImpl(countryDao, attractionDao, modelMapper, mapperUtil);
+        SpecificationCreator<Country> creator = new SpecificationCreator<>();
+        countryService = new CountryServiceImpl(countryDao, attractionDao, modelMapper, mapperUtil, creator);
 
     }
 

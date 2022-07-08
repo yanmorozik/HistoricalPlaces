@@ -111,7 +111,6 @@
         </insert>
     </changeSet>
 
-
     <changeSet id="16.insert-settlement-table" author="Yan Morozik">
         <insert tableName="settlement">
             <column name="name" value="Minsk"/>
@@ -238,7 +237,6 @@
             <column name="address_id" value="5"/>
         </insert>
     </changeSet>
-
 
     <changeSet id="20.insert-similar_place-table" author="Yan Morozik">
         <insert tableName="similar_place">
