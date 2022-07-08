@@ -1,13 +1,22 @@
 package eu.morozik.historicalplaces.controller;
 
 import eu.morozik.historicalplaces.dto.CountGradeDto;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -38,6 +47,13 @@ public class ReviewController {
                                                    @RequestParam int size,
                                                    @RequestParam String name) {
         List<ReviewDto> reviews = reviewService.findAll(page, size, name);
+        return ResponseEntity.ok(reviews);
+    }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<ReviewDto>> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<ReviewDto> reviews = reviewService.findAll(searchDto);
         return ResponseEntity.ok(reviews);
     }
 

@@ -1,6 +1,8 @@
 package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dto.CountGradeDto;
+import eu.morozik.historicalplaces.dto.CountryDto;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 
@@ -13,6 +15,10 @@ public interface ReviewService {
     ReviewDto findById(Long id);
 
     List<ReviewDto> findAll(int page, int size, String name);
+
+    List<ReviewDto> findAll(SearchWithThreeFiltersDto searchDto);
+
+    List<ReviewDto> findAll();
 
     void deleteById(Long id);
 
