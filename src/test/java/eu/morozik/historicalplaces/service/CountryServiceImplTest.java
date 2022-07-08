@@ -5,7 +5,7 @@ import eu.morozik.historicalplaces.dao.CountryDao;
 import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.service.impl.CountryServiceImpl;
-import eu.morozik.historicalplaces.specification.SpecificationCreator;
+import eu.morozik.historicalplaces.specification.common.SpecificationCreator;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

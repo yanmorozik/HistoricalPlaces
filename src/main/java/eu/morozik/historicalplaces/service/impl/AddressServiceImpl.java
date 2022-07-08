@@ -11,6 +11,7 @@ import eu.morozik.historicalplaces.model.Address;
 import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Settlement;
 import eu.morozik.historicalplaces.service.AddressService;
+import eu.morozik.historicalplaces.specification.address.AddressSpecification;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import eu.morozik.starter.aspect.ExecutionTime;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,8 @@ public class AddressServiceImpl implements AddressService {
     private final SettlementDao settlementDao;
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
+
+    private final AddressSpecification addressSpecification;
 
     @ExecutionTime
     @Transactional
@@ -70,6 +73,13 @@ public class AddressServiceImpl implements AddressService {
     public void deleteById(Long id) {
         attractionDao.deleteSimilarPlaces(id);
         addressDao.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<AddressDto> findAllByStreet(String street) {
+       List<Address> addresses = addressDao.findAll(addressSpecification.streetLike(street));
+       return (List<AddressDto>) mapperUtil.map(addresses,AddressDto.class);
     }
 
     public Address reassignment(AddressWithRelationIdsDto addressWithRelationIdsDto) {

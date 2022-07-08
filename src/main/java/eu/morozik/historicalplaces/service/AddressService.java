@@ -14,4 +14,6 @@ public interface AddressService {
     List<AddressDto> findAll(int page, int size, String name);
 
     void deleteById(Long id);
+
+    List<AddressDto> findAllByStreet(String street);
 }

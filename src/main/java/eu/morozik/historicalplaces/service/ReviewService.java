@@ -1,7 +1,6 @@
 package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dto.CountGradeDto;
-import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
@@ -27,4 +26,6 @@ public interface ReviewService {
     CountGradeDto countByGradeEquals(Long grade);
 
     boolean existsReviewByGrade(Long grade);
+
+    List<ReviewDto> findAllByGrade(Long grade);
 }

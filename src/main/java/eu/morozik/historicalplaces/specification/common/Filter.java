@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.specification;
+package eu.morozik.historicalplaces.specification.common;
 
 import lombok.Builder;
 import lombok.Getter;

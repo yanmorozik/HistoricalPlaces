@@ -63,4 +63,12 @@ public class AddressController {
         addressService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search/street")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<AddressDto>> findAllByStreet(@RequestParam String street){
+        List<AddressDto> addresses = addressService.findAllByStreet(street);
+        return ResponseEntity.ok(addresses);
+    }
+
 }

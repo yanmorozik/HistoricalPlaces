@@ -13,9 +13,10 @@ import eu.morozik.historicalplaces.model.Attraction;
 import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.service.ReviewService;
-import eu.morozik.historicalplaces.specification.Filter;
-import eu.morozik.historicalplaces.specification.QueryOperator;
-import eu.morozik.historicalplaces.specification.SpecificationCreator;
+import eu.morozik.historicalplaces.specification.address.ReviewSpecification;
+import eu.morozik.historicalplaces.specification.common.Filter;
+import eu.morozik.historicalplaces.specification.common.QueryOperator;
+import eu.morozik.historicalplaces.specification.common.SpecificationCreator;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    private final ReviewSpecification reviewSpecification;
     private final SpecificationCreator<Review> creator;
 
     @Transactional
@@ -125,6 +127,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public boolean existsReviewByGrade(Long grade) {
         return reviewDao.existsReviewByGrade(grade);
+    }
+
+    @Override
+    public List<ReviewDto> findAllByGrade(Long grade) {
+        List<Review> reviews = reviewDao.findAll(reviewSpecification.gradeGreaterThan(grade));
+        return (List<ReviewDto>) mapperUtil.map(reviews,ReviewDto.class);
     }
 
     public Review reassignment(ReviewWithRelationIdsDto reviewWithRelationIdsDto) {

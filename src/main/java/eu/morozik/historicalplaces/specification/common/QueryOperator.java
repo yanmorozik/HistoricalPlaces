@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.specification;
+package eu.morozik.historicalplaces.specification.common;
 
 public enum QueryOperator {
     GREATER_THAN,

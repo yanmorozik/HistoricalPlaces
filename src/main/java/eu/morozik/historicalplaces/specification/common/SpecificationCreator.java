@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.specification;
+package eu.morozik.historicalplaces.specification.common;
 
 import eu.morozik.historicalplaces.model.BaseEntity;
 import org.springframework.data.jpa.domain.Specification;
