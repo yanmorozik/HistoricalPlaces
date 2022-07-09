@@ -4,6 +4,8 @@ import eu.morozik.historicalplaces.dto.CountGradeDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -13,11 +15,9 @@ public interface ReviewService {
 
     ReviewDto findById(Long id);
 
-    List<ReviewDto> findAll(int page, int size, String name);
+    Page<ReviewDto> findAll(Pageable pageable);
 
     List<ReviewDto> findAll(SearchWithThreeFiltersDto searchDto);
-
-    List<ReviewDto> findAll();
 
     void deleteById(Long id);
 

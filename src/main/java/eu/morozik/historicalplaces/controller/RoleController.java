@@ -4,6 +4,9 @@ import eu.morozik.historicalplaces.dto.RoleDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,11 +44,9 @@ public class RoleController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<RoleDto>> findAll(@RequestParam int page,
-                                                 @RequestParam int size,
-                                                 @RequestParam String name) {
-        List<RoleDto> roles = roleService.findAll(page, size, name);
-        return ResponseEntity.ok(roles);
+    public Page<RoleDto> findAll(@RequestParam String sort,
+                                 @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return roleService.findAll(pageable);
     }
 
     @GetMapping("/search")

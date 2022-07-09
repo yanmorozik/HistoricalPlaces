@@ -6,6 +6,9 @@ import eu.morozik.historicalplaces.dto.addressdto.AddressWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AddressService;
 import eu.morozik.starter.aspect.ExecutionTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,11 +47,9 @@ public class AddressController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<AddressDto>> findAll(@RequestParam int page,
-                                                    @RequestParam int size,
-                                                    @RequestParam String name) {
-        List<AddressDto> addresses = addressService.findAll(page, size, name);
-        return ResponseEntity.ok(addresses);
+    public Page<AddressDto> findAll(@RequestParam String sort,
+                                    @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return addressService.findAll(pageable);
     }
 
     @GetMapping("/search")

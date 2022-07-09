@@ -13,9 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,12 +50,10 @@ public class RoleServiceImpl implements RoleService {
         return modelMapper.map(role, RoleDto.class);
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<RoleDto> findAll(int page, int size, String name) {
-        Pageable pages = PageRequest.of(page, size, Sort.by(name));
-        Page<Role> roles = roleDao.findAll(pages);
-        return (List<RoleDto>) mapperUtil.map(roles.getContent(), RoleDto.class);
+    public Page<RoleDto> findAll(Pageable pageable) {
+        return roleDao.findAll(pageable)
+                .map(role -> modelMapper.map(role, RoleDto.class));
     }
 
     @Transactional(readOnly = true)

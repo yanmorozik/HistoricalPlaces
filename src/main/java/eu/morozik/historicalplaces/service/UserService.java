@@ -16,8 +16,6 @@ public interface UserService {
 
     UserDto findById(Long id);
 
-    List<UserDto> findAll(int page, int size, String name);
-
     Page<UserDto> findAll(Pageable pageable);
 
     List<UserDto> findAll(SearchWithThreeFiltersDto searchDto);

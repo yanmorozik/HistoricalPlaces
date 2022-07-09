@@ -14,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,12 +52,10 @@ public class SettlementServiceImpl implements SettlementService {
         return modelMapper.map(settlement, SettlementDto.class);
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<SettlementDto> findAll(int page, int size, String name) {
-        Pageable pages = PageRequest.of(page, size, Sort.by(name));
-        Page<Settlement> settlements = settlementDao.findAll(pages);
-        return (List<SettlementDto>) mapperUtil.map(settlements.getContent(), SettlementDto.class);
+    public Page<SettlementDto> findAll(Pageable pageable) {
+        return settlementDao.findAll(pageable)
+                .map(settlement -> modelMapper.map(settlement, SettlementDto.class));
     }
 
     @Transactional(readOnly = true)

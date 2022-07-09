@@ -22,10 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -73,24 +70,10 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
-    @Transactional(readOnly = true)
-    @Override
-    public List<UserDto> findAll(int page, int size, String name) {
-        Pageable pages = PageRequest.of(page, size, Sort.by(name));
-        Page<User> users = userDao.findAll(pages);
-        return (List<UserDto>) mapperUtil.map(users.getContent(), UserDto.class);
-    }
-
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
-        Page<User> users = userDao.findAll(pageable);
-        List<UserDto> userDtos = null;
-        for (User user : users) {
-            userDtos.add(modelMapper.map(user, UserDto.class));
-        }
-
-        assert userDtos != null;
-        return new PageImpl<>(userDtos);
+        return userDao.findAll(pageable)
+                .map(user -> modelMapper.map(user, UserDto.class));
     }
 
     @Transactional(readOnly = true)

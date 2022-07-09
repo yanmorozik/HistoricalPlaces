@@ -6,6 +6,9 @@ import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AttractionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,11 +46,9 @@ public class AttractionController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<AttractionDto>> findAll(@RequestParam int page,
-                                                       @RequestParam int size,
-                                                       @RequestParam String name) {
-        List<AttractionDto> attractions = attractionService.findAll(page, size, name);
-        return ResponseEntity.ok(attractions);
+    public Page<AttractionDto> findAll(@RequestParam String sort,
+                                       @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return attractionService.findAll(pageable);
     }
 
     @GetMapping("/search")

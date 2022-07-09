@@ -5,6 +5,9 @@ import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.BookingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,11 +47,9 @@ public class BookingController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<BookingDto>> findAll(@RequestParam int page,
-                                                    @RequestParam int size,
-                                                    @RequestParam String name) {
-        List<BookingDto> bookings = bookingService.findAll(page, size, name);
-        return ResponseEntity.ok(bookings);
+    public Page<BookingDto> findAll(@RequestParam String sort,
+                                    @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return bookingService.findAll(pageable);
     }
 
     @GetMapping("/search")

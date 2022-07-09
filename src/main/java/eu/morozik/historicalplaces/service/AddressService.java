@@ -3,6 +3,8 @@ package eu.morozik.historicalplaces.service;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressWithRelationIdsDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,7 +14,7 @@ public interface AddressService {
 
     AddressDto findById(Long id);
 
-    List<AddressDto> findAll(int page, int size, String name);
+    Page<AddressDto> findAll(Pageable pageable);
 
     List<AddressDto> findAll(SearchWithThreeFiltersDto searchDto);
 

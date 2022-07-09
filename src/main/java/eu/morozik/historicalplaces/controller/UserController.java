@@ -7,6 +7,7 @@ import eu.morozik.historicalplaces.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,18 +37,10 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<UserDto>> findAll(@RequestParam int page,
-                                                 @RequestParam int size,
-                                                 @RequestParam String name) {
-        List<UserDto> users = userService.findAll(page, size, name);
-        return ResponseEntity.ok(users);
+    public Page<UserDto> findAll(@RequestParam String sort,
+                                 @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return userService.findAll(pageable);
     }
-
-//    @GetMapping
-//    @PreAuthorize("hasRole('ROLE_USER')")
-//    public Page<UserDto> findAll(Pageable pageable) {
-//        return userService.findAll(pageable);
-//    }
 
     @GetMapping("/search")
     @PreAuthorize("hasRole('ROLE_USER')")

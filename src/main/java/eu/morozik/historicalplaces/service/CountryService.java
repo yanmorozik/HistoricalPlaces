@@ -2,6 +2,8 @@ package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dto.CountryDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -10,12 +12,11 @@ public interface CountryService {
 
     CountryDto findById(Long id);
 
-    List<CountryDto> findAll(int page, int size, String name);
+    Page<CountryDto> findAll(Pageable pageable);
 
     List<CountryDto> findAll(SearchWithThreeFiltersDto searchDto);
 
     List<CountryDto> findAll();
 
     void deleteById(Long id);
-
 }

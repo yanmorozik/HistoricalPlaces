@@ -20,9 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,12 +58,10 @@ public class ReviewServiceImpl implements ReviewService {
         return modelMapper.map(review, ReviewDto.class);
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<ReviewDto> findAll(int page, int size, String name) {
-        Pageable pages = PageRequest.of(page, size, Sort.by(name));
-        Page<Review> reviews = reviewDao.findAll(pages);
-        return (List<ReviewDto>) mapperUtil.map(reviews.getContent(), ReviewDto.class);
+    public Page<ReviewDto> findAll(Pageable pageable) {
+        return reviewDao.findAll(pageable)
+                .map(review -> modelMapper.map(review, ReviewDto.class));
     }
 
     @Transactional(readOnly = true)
@@ -77,13 +73,6 @@ public class ReviewServiceImpl implements ReviewService {
         } else {
             return (List<ReviewDto>) mapperUtil.map(reviewDao.findAll(), ReviewDto.class);
         }
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<ReviewDto> findAll() {
-        List<Review> reviews = reviewDao.findAll();
-        return (List<ReviewDto>) mapperUtil.map(reviews, ReviewDto.class);
     }
 
     @Transactional

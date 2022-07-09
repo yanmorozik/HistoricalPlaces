@@ -6,6 +6,9 @@ import eu.morozik.historicalplaces.dto.reviewdto.ReviewDto;
 import eu.morozik.historicalplaces.dto.reviewdto.ReviewWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,11 +46,9 @@ public class ReviewController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<ReviewDto>> findAll(@RequestParam int page,
-                                                   @RequestParam int size,
-                                                   @RequestParam String name) {
-        List<ReviewDto> reviews = reviewService.findAll(page, size, name);
-        return ResponseEntity.ok(reviews);
+    public Page<ReviewDto> findAll(@RequestParam String sort,
+                                   @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return reviewService.findAll(pageable);
     }
 
     @GetMapping("/search")

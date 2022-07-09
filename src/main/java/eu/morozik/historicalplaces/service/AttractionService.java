@@ -4,6 +4,8 @@ import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -13,12 +15,11 @@ public interface AttractionService {
 
     AttractionDto findById(Long id);
 
-    List<AttractionDto> findAll(int page, int size, String name);
+    Page<AttractionDto> findAll(Pageable pageable);
 
     List<AttractionDto> findAll(SearchWithThreeFiltersDto searchDto);
 
     void deleteById(Long id);
 
     AttractionView findByName(String name);
-
 }

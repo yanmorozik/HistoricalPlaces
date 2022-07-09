@@ -20,9 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,12 +60,11 @@ public class AddressServiceImpl implements AddressService {
         return modelMapper.map(address, AddressDto.class);
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<AddressDto> findAll(int page, int size, String name) {
-        Pageable pages = PageRequest.of(page, size, Sort.by(name));
-        Page<Address> addresses = addressDao.findAll(pages);
-        return (List<AddressDto>) mapperUtil.map(addresses.getContent(), AddressDto.class);
+    public Page<AddressDto> findAll(Pageable pageable) {
+        Page<Address> pagesDto = addressDao.findAll(pageable);
+        return addressDao.findAll(pageable)
+                .map(address -> modelMapper.map(address, AddressDto.class));
     }
 
     @Transactional(readOnly = true)

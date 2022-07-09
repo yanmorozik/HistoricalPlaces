@@ -4,6 +4,9 @@ import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.SettlementDto;
 import eu.morozik.historicalplaces.service.SettlementService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,11 +44,9 @@ public class SettlementController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<SettlementDto>> findAll(@RequestParam int page,
-                                                       @RequestParam int size,
-                                                       @RequestParam String name) {
-        List<SettlementDto> settlements = settlementService.findAll(page, size, name);
-        return ResponseEntity.ok(settlements);
+    public Page<SettlementDto> findAll(@RequestParam String sort,
+                                       @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return settlementService.findAll(pageable);
     }
 
     @GetMapping("/search")

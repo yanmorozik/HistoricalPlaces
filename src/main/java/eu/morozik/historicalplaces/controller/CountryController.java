@@ -6,6 +6,9 @@ import eu.morozik.historicalplaces.service.CountryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,11 +48,9 @@ public class CountryController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<CountryDto>> findAll(@RequestParam int page,
-                                                    @RequestParam int size,
-                                                    @RequestParam String name) {
-        List<CountryDto> counties = countryService.findAll(page, size, name);
-        return ResponseEntity.ok(counties);
+    public Page<CountryDto> findAll(@RequestParam String sort,
+                                    @PageableDefault(value = 5, page = 0) Pageable pageable) {
+        return countryService.findAll(pageable);
     }
 
     @GetMapping("/search")
