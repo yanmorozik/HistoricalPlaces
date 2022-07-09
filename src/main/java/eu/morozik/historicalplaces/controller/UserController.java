@@ -1,9 +1,12 @@
 package eu.morozik.historicalplaces.controller;
 
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,6 +40,19 @@ public class UserController {
                                                  @RequestParam int size,
                                                  @RequestParam String name) {
         List<UserDto> users = userService.findAll(page, size, name);
+        return ResponseEntity.ok(users);
+    }
+
+//    @GetMapping
+//    @PreAuthorize("hasRole('ROLE_USER')")
+//    public Page<UserDto> findAll(Pageable pageable) {
+//        return userService.findAll(pageable);
+//    }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<UserDto>> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<UserDto> users = userService.findAll(searchDto);
         return ResponseEntity.ok(users);
     }
 

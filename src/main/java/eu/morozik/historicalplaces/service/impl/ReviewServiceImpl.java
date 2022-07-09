@@ -13,10 +13,8 @@ import eu.morozik.historicalplaces.model.Attraction;
 import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.service.ReviewService;
-import eu.morozik.historicalplaces.specification.address.ReviewSpecification;
-import eu.morozik.historicalplaces.specification.common.Filter;
-import eu.morozik.historicalplaces.specification.common.QueryOperator;
-import eu.morozik.historicalplaces.specification.common.SpecificationCreator;
+import eu.morozik.historicalplaces.specification.Filter;
+import eu.morozik.historicalplaces.specification.SpecificationService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +23,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @RequiredArgsConstructor
@@ -45,8 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
-    private final ReviewSpecification reviewSpecification;
-    private final SpecificationCreator<Review> creator;
+    private final SpecificationService<Review> creator;
 
     @Transactional
     @Override
@@ -78,9 +71,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional(readOnly = true)
     @Override
     public List<ReviewDto> findAll(SearchWithThreeFiltersDto searchDto) {
-        List<Filter> filters = checkFilters(searchDto);
+        List<Filter> filters = creator.checkFilters(searchDto);
         if (filters.size() > 0) {
-            return (List<ReviewDto>) mapperUtil.map(reviewDao.findAll(getSpecificationFromFilters(filters)), ReviewDto.class);
+            return (List<ReviewDto>) mapperUtil.map(reviewDao.findAll(creator.getSpecificationFromFilters(filters)), ReviewDto.class);
         } else {
             return (List<ReviewDto>) mapperUtil.map(reviewDao.findAll(), ReviewDto.class);
         }
@@ -129,12 +122,6 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewDao.existsReviewByGrade(grade);
     }
 
-    @Override
-    public List<ReviewDto> findAllByGrade(Long grade) {
-        List<Review> reviews = reviewDao.findAll(reviewSpecification.gradeGreaterThan(grade));
-        return (List<ReviewDto>) mapperUtil.map(reviews,ReviewDto.class);
-    }
-
     public Review reassignment(ReviewWithRelationIdsDto reviewWithRelationIdsDto) {
         final Review review = modelMapper.map(reviewWithRelationIdsDto, Review.class);
 
@@ -158,34 +145,4 @@ public class ReviewServiceImpl implements ReviewService {
 
         return review;
     }
-
-    private Specification<Review> getSpecificationFromFilters(List<Filter> filter) {
-        Specification<Review> specification = where(creator.createSpecification(filter.remove(0)));
-        for (Filter input : filter) {
-            specification = specification.and(creator.createSpecification(input));
-        }
-        return specification;
-    }
-
-    private List<Filter> checkFilters(SearchWithThreeFiltersDto searchDto) {
-        List<Filter> filters = new ArrayList<>();
-
-        checkFilter(searchDto.getFirstField(), searchDto.getFirstOperator(), searchDto.getFirstValue(),filters);
-        checkFilter(searchDto.getSecondField(), searchDto.getSecondOperator(), searchDto.getSecondValue(),filters);
-        checkFilter(searchDto.getThirdField(), searchDto.getThirdOperator(), searchDto.getThirdValue(),filters);
-
-        return filters;
-    }
-
-    private void checkFilter(String field, QueryOperator operator, String value, List<Filter> filters) {
-        if (!(creator.isEmptyFilter(field, operator, value))) {
-            Filter filter = Filter.builder()
-                    .field(field)
-                    .operator(operator)
-                    .value(value)
-                    .build();
-            filters.add(filter);
-        }
-    }
-
 }

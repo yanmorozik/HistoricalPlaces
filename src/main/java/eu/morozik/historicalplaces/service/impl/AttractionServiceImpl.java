@@ -4,6 +4,7 @@ import eu.morozik.historicalplaces.dao.AddressDao;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
 import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -11,6 +12,8 @@ import eu.morozik.historicalplaces.model.Address;
 import eu.morozik.historicalplaces.model.Attraction;
 import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.service.AttractionService;
+import eu.morozik.historicalplaces.specification.Filter;
+import eu.morozik.historicalplaces.specification.SpecificationService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +40,8 @@ public class AttractionServiceImpl implements AttractionService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
+    private final SpecificationService<Attraction> creator;
+
     @Transactional
     @Override
     public AttractionDto save(AttractionWithRelationIdsDto attractionWithRelationIdsDto) {
@@ -62,6 +67,17 @@ public class AttractionServiceImpl implements AttractionService {
         Pageable pages = PageRequest.of(page, size, Sort.by(name));
         Page<Attraction> attractions = attractionDao.findAll(pages);
         return (List<AttractionDto>) mapperUtil.map(attractions.getContent(), AttractionDto.class);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<AttractionDto> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<Filter> filters = creator.checkFilters(searchDto);
+        if (filters.size() > 0) {
+            return (List<AttractionDto>) mapperUtil.map(attractionDao.findAll(creator.getSpecificationFromFilters(filters)), AttractionDto.class);
+        } else {
+            return (List<AttractionDto>) mapperUtil.map(attractionDao.findAll(), AttractionDto.class);
+        }
     }
 
     @Transactional

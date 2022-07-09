@@ -2,10 +2,13 @@ package eu.morozik.historicalplaces.service.impl;
 
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.SettlementDao;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.SettlementDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.model.Settlement;
 import eu.morozik.historicalplaces.service.SettlementService;
+import eu.morozik.historicalplaces.specification.Filter;
+import eu.morozik.historicalplaces.specification.SpecificationService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,8 @@ public class SettlementServiceImpl implements SettlementService {
     private final AttractionDao attractionDao;
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
+
+    private final SpecificationService<Settlement> creator;
 
     @Transactional
     @Override
@@ -55,6 +60,17 @@ public class SettlementServiceImpl implements SettlementService {
         Pageable pages = PageRequest.of(page, size, Sort.by(name));
         Page<Settlement> settlements = settlementDao.findAll(pages);
         return (List<SettlementDto>) mapperUtil.map(settlements.getContent(), SettlementDto.class);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<SettlementDto> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<Filter> filters = creator.checkFilters(searchDto);
+        if (filters.size() > 0) {
+            return (List<SettlementDto>) mapperUtil.map(settlementDao.findAll(creator.getSpecificationFromFilters(filters)), SettlementDto.class);
+        } else {
+            return (List<SettlementDto>) mapperUtil.map(settlementDao.findAll(), SettlementDto.class);
+        }
     }
 
     @Transactional

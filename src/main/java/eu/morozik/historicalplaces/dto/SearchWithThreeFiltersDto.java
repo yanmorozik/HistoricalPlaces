@@ -1,6 +1,6 @@
 package eu.morozik.historicalplaces.dto;
 
-import eu.morozik.historicalplaces.specification.common.QueryOperator;
+import eu.morozik.historicalplaces.specification.QueryOperator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

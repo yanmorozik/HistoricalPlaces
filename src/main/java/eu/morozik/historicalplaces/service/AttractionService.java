@@ -1,6 +1,7 @@
 package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 
@@ -14,7 +15,10 @@ public interface AttractionService {
 
     List<AttractionDto> findAll(int page, int size, String name);
 
+    List<AttractionDto> findAll(SearchWithThreeFiltersDto searchDto);
+
     void deleteById(Long id);
 
     AttractionView findByName(String name);
+
 }

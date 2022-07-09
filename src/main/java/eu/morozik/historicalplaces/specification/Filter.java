@@ -1,4 +1,4 @@
-package eu.morozik.historicalplaces.specification.common;
+package eu.morozik.historicalplaces.specification;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,5 +13,5 @@ public class Filter {
     private String field;
     private QueryOperator operator;
     private String value;
-    private List<String> values;//Used in case of IN operator
+    private List<String> values; //Used in case of IN operator
 }

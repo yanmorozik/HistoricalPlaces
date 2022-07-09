@@ -2,8 +2,11 @@ package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dto.AuthenticationDto;
 import eu.morozik.historicalplaces.dto.AuthenticationDtoWithToken;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,6 +17,10 @@ public interface UserService {
     UserDto findById(Long id);
 
     List<UserDto> findAll(int page, int size, String name);
+
+    Page<UserDto> findAll(Pageable pageable);
+
+    List<UserDto> findAll(SearchWithThreeFiltersDto searchDto);
 
     void deleteById(Long id);
 

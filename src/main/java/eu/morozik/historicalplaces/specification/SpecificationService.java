@@ -1,5 +1,6 @@
-package eu.morozik.historicalplaces.specification.common;
+package eu.morozik.historicalplaces.specification;
 
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.model.BaseEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -7,8 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.Specification.where;
+
 @Component
-public class SpecificationCreator <T extends BaseEntity> {
+public class SpecificationService<T extends BaseEntity> {
 
     public Specification<T> createSpecification(Filter input) {
         switch (input.getOperator()) {
@@ -47,19 +50,46 @@ public class SpecificationCreator <T extends BaseEntity> {
             return Integer.valueOf(value);
         } else if (Enum.class.isAssignableFrom(fieldType)) {
             return Enum.valueOf(fieldType, value);
+        } else if (fieldType.isAssignableFrom(Long.class)) {
+            return Long.valueOf(value);
+        } else if (fieldType.isAssignableFrom(String.class)) {
+            return String.valueOf(value);
         }
+
         return null;
     }
 
-    private Object castToRequiredType(Class fieldType, List<String> value) {
-        List<Object> lists = new ArrayList<>();
-        for (String s : value) {
-            lists.add(castToRequiredType(fieldType, s));
-        }
-        return lists;
+    public boolean isEmptyFilter(String field, QueryOperator operator, String value) {
+        return field == null && operator == null && value == null;
     }
 
-    public boolean isEmptyFilter(String field, QueryOperator operator, String value){
-        return field == null && operator == null && value == null;
+    public Specification<T> getSpecificationFromFilters(List<Filter> filter) {
+        Specification<T> specification;
+        specification = where(createSpecification(filter.remove(0)));
+        for (Filter input : filter) {
+            specification = specification.and(createSpecification(input));
+        }
+        return specification;
+    }
+
+    public List<Filter> checkFilters(SearchWithThreeFiltersDto searchDto) {
+        List<Filter> filters = new ArrayList<>();
+
+        checkFilter(searchDto.getFirstField(), searchDto.getFirstOperator(), searchDto.getFirstValue(), filters);
+        checkFilter(searchDto.getSecondField(), searchDto.getSecondOperator(), searchDto.getSecondValue(), filters);
+        checkFilter(searchDto.getThirdField(), searchDto.getThirdOperator(), searchDto.getThirdValue(), filters);
+
+        return filters;
+    }
+
+    private void checkFilter(String field, QueryOperator operator, String value, List<Filter> filters) {
+        if (!(isEmptyFilter(field, operator, value))) {
+            Filter filter = Filter.builder()
+                    .field(field)
+                    .operator(operator)
+                    .value(value)
+                    .build();
+            filters.add(filter);
+        }
     }
 }

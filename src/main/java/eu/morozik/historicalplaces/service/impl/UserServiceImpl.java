@@ -5,6 +5,7 @@ import eu.morozik.historicalplaces.dao.RoleDao;
 import eu.morozik.historicalplaces.dao.UserDao;
 import eu.morozik.historicalplaces.dto.AuthenticationDto;
 import eu.morozik.historicalplaces.dto.AuthenticationDtoWithToken;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -14,11 +15,14 @@ import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.model.enums.Status;
 import eu.morozik.historicalplaces.security.JwtTokenProvider;
 import eu.morozik.historicalplaces.service.UserService;
+import eu.morozik.historicalplaces.specification.Filter;
+import eu.morozik.historicalplaces.specification.SpecificationService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,6 +51,7 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 
+    private final SpecificationService<User> creator;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -74,6 +79,29 @@ public class UserServiceImpl implements UserService {
         Pageable pages = PageRequest.of(page, size, Sort.by(name));
         Page<User> users = userDao.findAll(pages);
         return (List<UserDto>) mapperUtil.map(users.getContent(), UserDto.class);
+    }
+
+    @Override
+    public Page<UserDto> findAll(Pageable pageable) {
+        Page<User> users = userDao.findAll(pageable);
+        List<UserDto> userDtos = null;
+        for (User user : users) {
+            userDtos.add(modelMapper.map(user, UserDto.class));
+        }
+
+        assert userDtos != null;
+        return new PageImpl<>(userDtos);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<UserDto> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<Filter> filters = creator.checkFilters(searchDto);
+        if (filters.size() > 0) {
+            return (List<UserDto>) mapperUtil.map(userDao.findAll(creator.getSpecificationFromFilters(filters)), UserDto.class);
+        } else {
+            return (List<UserDto>) mapperUtil.map(userDao.findAll(), UserDto.class);
+        }
     }
 
     @Transactional

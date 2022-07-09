@@ -26,6 +26,4 @@ public interface ReviewService {
     CountGradeDto countByGradeEquals(Long grade);
 
     boolean existsReviewByGrade(Long grade);
-
-    List<ReviewDto> findAllByGrade(Long grade);
 }

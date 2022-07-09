@@ -1,6 +1,7 @@
 package eu.morozik.historicalplaces.controller;
 
 import eu.morozik.historicalplaces.dto.RoleDto;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,13 @@ public class RoleController {
                                                  @RequestParam int size,
                                                  @RequestParam String name) {
         List<RoleDto> roles = roleService.findAll(page, size, name);
+        return ResponseEntity.ok(roles);
+    }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<RoleDto>> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<RoleDto> roles = roleService.findAll(searchDto);
         return ResponseEntity.ok(roles);
     }
 

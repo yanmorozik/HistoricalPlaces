@@ -4,6 +4,7 @@ import eu.morozik.historicalplaces.dao.AddressDao;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.CountryDao;
 import eu.morozik.historicalplaces.dao.SettlementDao;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -11,7 +12,8 @@ import eu.morozik.historicalplaces.model.Address;
 import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Settlement;
 import eu.morozik.historicalplaces.service.AddressService;
-import eu.morozik.historicalplaces.specification.address.AddressSpecification;
+import eu.morozik.historicalplaces.specification.Filter;
+import eu.morozik.historicalplaces.specification.SpecificationService;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import eu.morozik.starter.aspect.ExecutionTime;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +40,7 @@ public class AddressServiceImpl implements AddressService {
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
 
-    private final AddressSpecification addressSpecification;
+    private final SpecificationService<Address> creator;
 
     @ExecutionTime
     @Transactional
@@ -68,18 +70,22 @@ public class AddressServiceImpl implements AddressService {
         return (List<AddressDto>) mapperUtil.map(addresses.getContent(), AddressDto.class);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public List<AddressDto> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<Filter> filters = creator.checkFilters(searchDto);
+        if (filters.size() > 0) {
+            return (List<AddressDto>) mapperUtil.map(addressDao.findAll(creator.getSpecificationFromFilters(filters)), AddressDto.class);
+        } else {
+            return (List<AddressDto>) mapperUtil.map(addressDao.findAll(), AddressDto.class);
+        }
+    }
+
     @Transactional
     @Override
     public void deleteById(Long id) {
         attractionDao.deleteSimilarPlaces(id);
         addressDao.deleteById(id);
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public List<AddressDto> findAllByStreet(String street) {
-       List<Address> addresses = addressDao.findAll(addressSpecification.streetLike(street));
-       return (List<AddressDto>) mapperUtil.map(addresses,AddressDto.class);
     }
 
     public Address reassignment(AddressWithRelationIdsDto addressWithRelationIdsDto) {

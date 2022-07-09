@@ -1,5 +1,6 @@
 package eu.morozik.historicalplaces.controller;
 
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressDto;
 import eu.morozik.historicalplaces.dto.addressdto.AddressWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AddressService;
@@ -50,6 +51,13 @@ public class AddressController {
         return ResponseEntity.ok(addresses);
     }
 
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<AddressDto>> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<AddressDto> addresses = addressService.findAll(searchDto);
+        return ResponseEntity.ok(addresses);
+    }
+
     @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<AddressDto> update(@RequestBody AddressWithRelationIdsDto addressWithRelationIdsDto) {
@@ -63,12 +71,4 @@ public class AddressController {
         addressService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/search/street")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<AddressDto>> findAllByStreet(@RequestParam String street){
-        List<AddressDto> addresses = addressService.findAllByStreet(street);
-        return ResponseEntity.ok(addresses);
-    }
-
 }

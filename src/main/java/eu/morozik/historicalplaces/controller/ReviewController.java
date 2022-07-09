@@ -91,11 +91,4 @@ public class ReviewController {
         Boolean isExist = reviewService.existsReviewByGrade(grade);
         return ResponseEntity.ok(isExist);
     }
-
-    @GetMapping("/search/gradeGreater")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<List<ReviewDto>> findAllByGrade(@RequestParam Long grade) {
-        List<ReviewDto> reviews = reviewService.findAllByGrade(grade);
-        return ResponseEntity.ok(reviews);
-    }
 }

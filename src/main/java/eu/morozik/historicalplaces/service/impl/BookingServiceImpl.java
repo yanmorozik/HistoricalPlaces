@@ -3,6 +3,7 @@ package eu.morozik.historicalplaces.service.impl;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.BookingDao;
 import eu.morozik.historicalplaces.dao.UserDao;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
@@ -10,6 +11,8 @@ import eu.morozik.historicalplaces.model.Attraction;
 import eu.morozik.historicalplaces.model.Booking;
 import eu.morozik.historicalplaces.model.User;
 import eu.morozik.historicalplaces.service.BookingService;
+import eu.morozik.historicalplaces.specification.DateSpecificationService;
+import eu.morozik.historicalplaces.specification.Filter;
 import eu.morozik.historicalplaces.utils.MapperUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +37,8 @@ public class BookingServiceImpl implements BookingService {
     private final AttractionDao attractionDao;
     private final ModelMapper modelMapper;
     private final MapperUtil mapperUtil;
+
+    private final DateSpecificationService dateSpecificationService;
 
     @Transactional
     @Override
@@ -60,6 +65,17 @@ public class BookingServiceImpl implements BookingService {
         Pageable pages = PageRequest.of(page, size, Sort.by(name));
         Page<Booking> bookings = bookingDao.findAll(pages);
         return (List<BookingDto>) mapperUtil.map(bookings.getContent(), BookingDto.class);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<BookingDto> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<Filter> filters = dateSpecificationService.checkFilters(searchDto);
+        if (filters.size() > 0) {
+            return (List<BookingDto>) mapperUtil.map(bookingDao.findAll(dateSpecificationService.getSpecificationFromFilters(filters)), BookingDto.class);
+        } else {
+            return (List<BookingDto>) mapperUtil.map(bookingDao.findAll(), BookingDto.class);
+        }
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package eu.morozik.historicalplaces.controller;
 
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingDto;
 import eu.morozik.historicalplaces.dto.bookingdto.BookingWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.BookingService;
@@ -47,6 +48,13 @@ public class BookingController {
                                                     @RequestParam int size,
                                                     @RequestParam String name) {
         List<BookingDto> bookings = bookingService.findAll(page, size, name);
+        return ResponseEntity.ok(bookings);
+    }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<BookingDto>> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<BookingDto> bookings = bookingService.findAll(searchDto);
         return ResponseEntity.ok(bookings);
     }
 

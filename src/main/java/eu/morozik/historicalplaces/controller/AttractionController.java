@@ -1,6 +1,7 @@
 package eu.morozik.historicalplaces.controller;
 
 import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
+import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDto;
 import eu.morozik.historicalplaces.service.AttractionService;
@@ -46,6 +47,13 @@ public class AttractionController {
                                                        @RequestParam int size,
                                                        @RequestParam String name) {
         List<AttractionDto> attractions = attractionService.findAll(page, size, name);
+        return ResponseEntity.ok(attractions);
+    }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<List<AttractionDto>> findAll(SearchWithThreeFiltersDto searchDto) {
+        List<AttractionDto> attractions = attractionService.findAll(searchDto);
         return ResponseEntity.ok(attractions);
     }
 
