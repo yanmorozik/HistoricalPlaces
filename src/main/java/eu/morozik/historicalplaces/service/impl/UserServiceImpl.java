@@ -5,13 +5,16 @@ import eu.morozik.historicalplaces.dao.RoleDao;
 import eu.morozik.historicalplaces.dao.UserDao;
 import eu.morozik.historicalplaces.dto.AuthenticationDto;
 import eu.morozik.historicalplaces.dto.AuthenticationDtoWithToken;
+import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Credential;
 import eu.morozik.historicalplaces.model.Role;
 import eu.morozik.historicalplaces.model.User;
+import eu.morozik.historicalplaces.model.enums.Entity;
 import eu.morozik.historicalplaces.model.enums.Status;
 import eu.morozik.historicalplaces.security.JwtTokenProvider;
 import eu.morozik.historicalplaces.service.UserService;
@@ -30,6 +33,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -136,6 +140,17 @@ public class UserServiceImpl implements UserService {
         user.setStatus(Status.ACTIVE);
         userDao.save(user);
         return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public List<GeneralObjectDto> searchAsGlobal(String name) {
+        List<User> users = userDao.findUserByName(name);
+        List<GeneralObjectDto> generalObjectDtos = new ArrayList<>();
+
+        for (User user : users) {
+            generalObjectDtos.add(GeneralObjectDto.builder().name(user.getFirstName()).type(Entity.USER).build());
+        }
+        return generalObjectDtos;
     }
 
     public User reassignment(UserWithRelationIdsDto userWithRelationIdsDto) {

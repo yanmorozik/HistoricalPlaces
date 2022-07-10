@@ -2,6 +2,7 @@ package eu.morozik.historicalplaces.service;
 
 import eu.morozik.historicalplaces.dto.AuthenticationDto;
 import eu.morozik.historicalplaces.dto.AuthenticationDtoWithToken;
+import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
@@ -29,4 +30,6 @@ public interface UserService {
     AuthenticationDtoWithToken authenticate(AuthenticationDto dto);
 
     UserDto registration(UserDto userDto);
+
+    List<GeneralObjectDto> searchAsGlobal(String name);
 }

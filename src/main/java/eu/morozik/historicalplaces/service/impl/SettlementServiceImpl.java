@@ -2,10 +2,13 @@ package eu.morozik.historicalplaces.service.impl;
 
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.SettlementDao;
+import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.SettlementDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
+import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Settlement;
+import eu.morozik.historicalplaces.model.enums.Entity;
 import eu.morozik.historicalplaces.service.SettlementService;
 import eu.morozik.historicalplaces.specification.Filter;
 import eu.morozik.historicalplaces.specification.SpecificationService;
@@ -18,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -74,5 +78,16 @@ public class SettlementServiceImpl implements SettlementService {
     public void deleteById(Long id) {
         attractionDao.deleteSimilarPlaces(id);
         settlementDao.deleteById(id);
+    }
+
+    @Override
+    public List<GeneralObjectDto> searchAsGlobal(String name) {
+        List<Settlement> settlements = settlementDao.findByName(name);
+        List<GeneralObjectDto> generalObjectDtos = new ArrayList<>();
+
+        for (Settlement settlement : settlements) {
+            generalObjectDtos.add(GeneralObjectDto.builder().name(settlement.getName()).type(Entity.SETTLEMENT).build());
+        }
+        return generalObjectDtos;
     }
 }

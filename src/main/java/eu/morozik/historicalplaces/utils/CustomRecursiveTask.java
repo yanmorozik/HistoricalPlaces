@@ -35,7 +35,7 @@ public class CustomRecursiveTask extends RecursiveTask<GeneralObjectDto> {
         List<Settlement> settlements;
         List<User> users;
         
-        String name = GlobalServiceImpl.nameEntity;
+        String name = null;
         attractions =  attractionDao.findAll();
 
         for (Attraction attraction : attractions) {

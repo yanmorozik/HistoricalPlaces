@@ -71,11 +71,4 @@ public class AttractionController {
         attractionService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/findByName")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<AttractionView> findByName(@RequestParam String name) {
-        AttractionView view = attractionService.findByName(name);
-        return ResponseEntity.ok(view);
-    }
 }

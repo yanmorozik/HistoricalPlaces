@@ -3,9 +3,11 @@ package eu.morozik.historicalplaces.service.impl;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.CountryDao;
 import eu.morozik.historicalplaces.dto.CountryDto;
+import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.model.Country;
+import eu.morozik.historicalplaces.model.enums.Entity;
 import eu.morozik.historicalplaces.service.CountryService;
 import eu.morozik.historicalplaces.specification.Filter;
 import eu.morozik.historicalplaces.specification.SpecificationService;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -81,5 +84,17 @@ public class CountryServiceImpl implements CountryService {
     public void deleteById(Long id) {
         attractionDao.deleteSimilarPlaces(id);
         countryDao.deleteById(id);
+    }
+
+    @Override
+    public List<GeneralObjectDto> searchAsGlobal(String name) {
+        List<Country> countries = countryDao.findByName(name);
+        List<GeneralObjectDto> generalObjectDtos = new ArrayList<>();
+
+        for (Country country : countries) {
+            generalObjectDtos.add(GeneralObjectDto.builder().name(country.getName()).type(Entity.COUNTRY).build());
+
+        }
+        return generalObjectDtos;
     }
 }

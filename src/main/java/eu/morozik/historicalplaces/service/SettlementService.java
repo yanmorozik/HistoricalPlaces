@@ -1,5 +1,6 @@
 package eu.morozik.historicalplaces.service;
 
+import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.SettlementDto;
 import org.springframework.data.domain.Page;
@@ -18,4 +19,6 @@ public interface SettlementService {
     List<SettlementDto> findAll(SearchWithThreeFiltersDto searchDto);
 
     void deleteById(Long id);
+
+    List<GeneralObjectDto> searchAsGlobal(String name);
 }
