@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -87,14 +86,13 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<GeneralObjectDto> searchAsGlobal(String name) {
+    public GeneralObjectDto searchAsGlobal(String name) {
         List<Country> countries = countryDao.findByName(name);
-        List<GeneralObjectDto> generalObjectDtos = new ArrayList<>();
 
         for (Country country : countries) {
-            generalObjectDtos.add(GeneralObjectDto.builder().name(country.getName()).type(Entity.COUNTRY).build());
-
+            if (country.getName().equals(name))
+                return GeneralObjectDto.builder().name(country.getName()).type(Entity.COUNTRY).build();
         }
-        return generalObjectDtos;
+        return null;
     }
 }

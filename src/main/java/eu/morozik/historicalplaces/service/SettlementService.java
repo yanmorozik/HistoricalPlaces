@@ -20,5 +20,5 @@ public interface SettlementService {
 
     void deleteById(Long id);
 
-    List<GeneralObjectDto> searchAsGlobal(String name);
+    GeneralObjectDto searchAsGlobal(String name);
 }

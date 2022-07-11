@@ -20,6 +20,6 @@ public class GlobalController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<GeneralObjectDto> findAll(@RequestParam String name) {
-        return ResponseEntity.ok(service.findCountEntityByName(name));
+        return ResponseEntity.ok(service.findEntityByName(name));
     }
 }

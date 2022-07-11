@@ -1,6 +1,5 @@
 package eu.morozik.historicalplaces.service;
 
-import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
 import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
@@ -22,5 +21,5 @@ public interface AttractionService {
 
     void deleteById(Long id);
 
-    List<GeneralObjectDto> searchAsGlobal(String name);
+    GeneralObjectDto searchAsGlobal(String name);
 }

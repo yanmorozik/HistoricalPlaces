@@ -3,7 +3,6 @@ package eu.morozik.historicalplaces.service.impl;
 import eu.morozik.historicalplaces.dao.AddressDao;
 import eu.morozik.historicalplaces.dao.AttractionDao;
 import eu.morozik.historicalplaces.dao.ReviewDao;
-import eu.morozik.historicalplaces.dao.projection.view.AttractionView;
 import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.attractiondto.AttractionDto;
@@ -11,7 +10,6 @@ import eu.morozik.historicalplaces.dto.attractiondto.AttractionWithRelationIdsDt
 import eu.morozik.historicalplaces.exception.NotFoundException;
 import eu.morozik.historicalplaces.model.Address;
 import eu.morozik.historicalplaces.model.Attraction;
-import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Review;
 import eu.morozik.historicalplaces.model.enums.Entity;
 import eu.morozik.historicalplaces.service.AttractionService;
@@ -26,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -88,14 +85,14 @@ public class AttractionServiceImpl implements AttractionService {
     }
 
     @Override
-    public List<GeneralObjectDto> searchAsGlobal(String name) {
+    public GeneralObjectDto searchAsGlobal(String name) {
         List<Attraction> attractions = attractionDao.findByName(name);
-        List<GeneralObjectDto> generalObjectDtos = new ArrayList<>();
 
-        for (Attraction attraction: attractions) {
-            generalObjectDtos.add(GeneralObjectDto.builder().name(attraction.getName()).type(Entity.ATTRACTION).build());
+        for (Attraction attraction : attractions) {
+            if (attraction.getName().equals(name))
+                return GeneralObjectDto.builder().name(attraction.getName()).type(Entity.ATTRACTION).build();
         }
-        return generalObjectDtos;
+        return null;
     }
 
     public Attraction reassignment(AttractionWithRelationIdsDto attractionWithRelationIdsDto) {

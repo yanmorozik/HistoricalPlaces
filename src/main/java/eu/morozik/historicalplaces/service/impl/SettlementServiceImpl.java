@@ -6,7 +6,6 @@ import eu.morozik.historicalplaces.dto.GeneralObjectDto;
 import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.SettlementDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Settlement;
 import eu.morozik.historicalplaces.model.enums.Entity;
 import eu.morozik.historicalplaces.service.SettlementService;
@@ -21,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -81,13 +79,13 @@ public class SettlementServiceImpl implements SettlementService {
     }
 
     @Override
-    public List<GeneralObjectDto> searchAsGlobal(String name) {
+    public GeneralObjectDto searchAsGlobal(String name) {
         List<Settlement> settlements = settlementDao.findByName(name);
-        List<GeneralObjectDto> generalObjectDtos = new ArrayList<>();
 
         for (Settlement settlement : settlements) {
-            generalObjectDtos.add(GeneralObjectDto.builder().name(settlement.getName()).type(Entity.SETTLEMENT).build());
+            if (settlement.getName().equals(name))
+                return GeneralObjectDto.builder().name(settlement.getName()).type(Entity.SETTLEMENT).build();
         }
-        return generalObjectDtos;
+        return null;
     }
 }

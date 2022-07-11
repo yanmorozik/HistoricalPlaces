@@ -31,5 +31,5 @@ public interface UserService {
 
     UserDto registration(UserDto userDto);
 
-    List<GeneralObjectDto> searchAsGlobal(String name);
+    GeneralObjectDto searchAsGlobal(String name);
 }

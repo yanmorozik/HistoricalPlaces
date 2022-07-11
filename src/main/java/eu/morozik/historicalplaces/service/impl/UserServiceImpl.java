@@ -10,7 +10,6 @@ import eu.morozik.historicalplaces.dto.SearchWithThreeFiltersDto;
 import eu.morozik.historicalplaces.dto.userdto.UserDto;
 import eu.morozik.historicalplaces.dto.userdto.UserWithRelationIdsDto;
 import eu.morozik.historicalplaces.exception.NotFoundException;
-import eu.morozik.historicalplaces.model.Country;
 import eu.morozik.historicalplaces.model.Credential;
 import eu.morozik.historicalplaces.model.Role;
 import eu.morozik.historicalplaces.model.User;
@@ -33,7 +32,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -143,14 +141,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GeneralObjectDto> searchAsGlobal(String name) {
+    public GeneralObjectDto searchAsGlobal(String name) {
         List<User> users = userDao.findUserByName(name);
-        List<GeneralObjectDto> generalObjectDtos = new ArrayList<>();
 
         for (User user : users) {
-            generalObjectDtos.add(GeneralObjectDto.builder().name(user.getFirstName()).type(Entity.USER).build());
+            if (user.getFirstName().equals(name))
+                return GeneralObjectDto.builder().name(user.getFirstName()).type(Entity.USER).build();
         }
-        return generalObjectDtos;
+        return null;
     }
 
     public User reassignment(UserWithRelationIdsDto userWithRelationIdsDto) {
