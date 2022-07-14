@@ -20,6 +20,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -38,7 +40,7 @@ public class BookingServiceImpl implements BookingService {
 
     private final DateSpecificationService dateSpecificationService;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.SERIALIZABLE)
     @Override
     public BookingDto save(BookingWithRelationIdsDto bookingWithRelationIdsDto) {
         Booking response = bookingDao.save(reassignment(bookingWithRelationIdsDto));
