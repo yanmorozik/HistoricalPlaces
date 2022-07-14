@@ -4,6 +4,7 @@ import eu.morozik.historicalplaces.dto.CredentialDto;
 import eu.morozik.historicalplaces.dto.RoleDto;
 import eu.morozik.historicalplaces.model.enums.Status;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserDto {
     private Long id;
 
